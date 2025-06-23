@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Basic",
     "icon": "flash-outline",
     "powerRange": "2–5 kW",
@@ -9,9 +10,11 @@
     "energyCost": "R$ 39,36 a R$ 98,40",
     "commercialIndication": false,
     "commercialAttraction": "Indicado para residências",
-    "description": "Ideal para pequenos negócios e residências, com economia de até 20% na conta de luz."
+    "description": "Ideal para pequenos negócios e residências, com economia de até 20% na conta de luz.",
+    "status": "active"
   },
   {
+    "id": 2,
     "name": "Special",
     "icon": "sunny-outline",
     "powerRange": "5–10 kW",
@@ -21,9 +24,11 @@
     "energyCost": "R$ 98,40 a R$ 196,80",
     "commercialIndication": true,
     "commercialAttraction": "Mais Popular entre empresas",
-    "description": "Perfeito para empresas de médio porte, com economia de até 25% na conta de luz."
+    "description": "Perfeito para empresas de médio porte, com economia de até 25% na conta de luz.",
+    "status": "active"
   },
   {
+    "id": 3,
     "name": "Premium",
     "icon": "star-outline",
     "powerRange": "10–15+ kW",
@@ -33,6 +38,7 @@
     "energyCost": "R$ 196,80 a R$ 295,20",
     "commercialIndication": false,
     "commercialAttraction": "Alta demanda energética",
-    "description": "Para grandes empresas e indústrias, com economia de até 30% na conta de luz."
+    "description": "Para grandes empresas e indústrias, com economia de até 30% na conta de luz.",
+    "status": "active"
   }
 ]

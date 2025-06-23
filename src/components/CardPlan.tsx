@@ -5,23 +5,10 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
-
-type Plan = {
-  name: string;
-  icon: React.ComponentProps<typeof Ionicons>["name"];
-  powerRange: string;
-  consumption: string;
-  pricePerKwh: string;
-  monthlyEstimate: string;
-  energyCost: string;
-  commercialIndication: boolean;
-  description?: string;
-  commercialAttraction: string;
-};
-export type { Plan };
+import { PlanType } from "@/types/PlanType";
 
 type CardPlanProps = {
-  plan: Plan;
+  plan: PlanType;
 };
 
 export function CardPlan({ plan }: CardPlanProps) {
@@ -85,7 +72,7 @@ export function CardPlan({ plan }: CardPlanProps) {
 
               <TouchableOpacity
                 style={[styles.button, { backgroundColor: theme.button.backgroundColor }]}
-                onPress={() => router.push("/associado")}
+                onPress={() => router.push("/beneficiado")}
               >
                 <Text style={[theme.buttonText, { fontWeight: "600" }]}>Assinar</Text>
               </TouchableOpacity>
@@ -118,7 +105,7 @@ export function CardPlan({ plan }: CardPlanProps) {
 
               <TouchableOpacity
                 style={[styles.button, { backgroundColor: theme.button.backgroundColor }, { marginTop: 170 }]}
-                onPress={() => router.push("/associado")}
+                onPress={() => router.push("/beneficiado")}
               >
                 <Text style={[theme.buttonText, { fontWeight: "600" }]}>Assinar</Text>
               </TouchableOpacity>

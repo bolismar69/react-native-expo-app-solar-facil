@@ -1,9 +1,11 @@
 // src/components/forms/FormBeneficiado.tsx
-// import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
 import { FormSection } from "@/components/forms/FormSection";
 import { BeneficiadoType } from "@/types/BeneficiadoType";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
-// import { useAppTheme } from "@/context/AppThemeContext";
+import { fetchPlanOptions } from "@/services/servicePlans";
+import { fetchConcessionariasOptions } from "@/services/serviceConcessionarias";
+import { fetchConsumoMedioOptions } from "@/services/serviceConsumoMedio";
 import { validateFormData } from "@/utils/validateFormData";
 import { isValidCPF, formatCPF } from "@/utils/validatorCPF";
 import { brazilianStates } from "@/constants/states";
@@ -13,7 +15,15 @@ interface Props {
 }
 
 export function FormBeneficiado({ onSubmit }: Props) {
-  console.log("FormBeneficiado rendered");
+  const [planOptions, setPlanOptions] = useState<{ label: string; value: number }[]>([]);
+  const [concessionariasOptions, setConcessionariasOptions] = useState<{ label: string; value: number }[]>([]);
+  const [consumoMedioOptions, setConsumoMedioOptions] = useState<{ label: string; value: number }[]>([]);
+
+  useEffect(() => {
+    fetchPlanOptions().then(setPlanOptions);
+    fetchConcessionariasOptions().then(setConcessionariasOptions);
+    fetchConsumoMedioOptions().then(setConsumoMedioOptions);
+  }, []);
 
   const fields: FieldDefinitionType<BeneficiadoType>[] = [
     {
@@ -34,7 +44,6 @@ export function FormBeneficiado({ onSubmit }: Props) {
       validation: (value: string) => (isValidCPF(value) ? null : "CPF inválido"),
       errorMessage: "Formato esperado: 000.000.000-00",
       formattedValue: formatCPF,
-      toUpperCase: true,
     },
     {
       name: "documentoIdentidade",
@@ -101,15 +110,10 @@ export function FormBeneficiado({ onSubmit }: Props) {
       type: "select",
       required: true,
       placeholder: "Selecione a concessionária",
-      options: [
-        { label: "Enel Distribuição São Paulo", value: "ENEL" },
-        { label: "CPFL Paulista", value: "CPFLPaulista" },
-        { label: "CPFL Piratininga", value: "CPFLPiratininga" },
-        { label: "CPFL Santa Cruz", value: "CPFLSantaCruz" },
-        { label: "EDP SP", value: "EDPSP" },
-        { label: "Energisa Sul Sudeste", value: "EnergisaSulSudeste" },
-        { label: "Neoenergia Elektro", value: "NeoenergiaElektro" },
-      ]
+      options: concessionariasOptions.map(option => ({
+        ...option,
+        value: String(option.value),
+      })),
     },
     {
       name: "consumoMedio",
@@ -117,27 +121,21 @@ export function FormBeneficiado({ onSubmit }: Props) {
       type: "select",
       required: true,
       placeholder: "Selecione o consumo médio",
-      options: [
-        { label: "Até R$ 500,00", value: "0-500" },
-        { label: "De R$ 500,01 até R$ 1.000,00", value: "501-1000" },
-        { label: "De R$ 1.000,01 até R$ 2.000,00", value: "1001-2000" },
-        { label: "De R$ 2.000,01 até R$ 3.000,00", value: "2001-3000" },
-        { label: "De R$ 3.000,01 até R$ 4.000,00", value: "3001-4000" },
-        { label: "Acima de R$ 4.000,00", value: "4000-9999999999" },
-      ]
+      options: consumoMedioOptions.map(option => ({
+        ...option,
+        value: String(option.value),
+      })),
     },
     {
       name: "planoDesejado",
       label: "Plano desejado",
-      placeholder: "Basic / Special / Premium",
+      placeholder: "Selecione um plano",
       type: "select",
       required: true,
-      keyboardType: "default",
-      options: [
-        { label: "Basic", value: "basic" },
-        { label: "Special", value: "special" },
-        { label: "Premium", value: "premium" },
-      ]
+      options: planOptions.map(option => ({
+        ...option,
+        value: String(option.value),
+      })),
     },
     {
       name: "aceitaTermos",
@@ -172,25 +170,6 @@ export function FormBeneficiado({ onSubmit }: Props) {
     nomeConcessionaria: "",
   };
 
-  // return (
-  //   <KeyboardAvoidingView
-  //     style={{ flex: 1 }}
-  //     behavior={Platform.OS === "ios" ? "padding" : "height"}
-  //   >
-  //     <ScrollView
-  //       style={[{ padding: 16, backgroundColor: theme.screen.backgroundColor }]}
-  //       contentContainerStyle={{ paddingBottom: 40 }}
-  //       keyboardShouldPersistTaps="handled"
-  //     >
-  //       <FormSection
-  //         title="Cadastro de Beneficiado"
-  //         fields={fields}
-  //         initialValues={initial}
-  //         onSubmit={(data) => console.log("Beneficiado:", data)}
-  //       />
-  //     </ScrollView>
-  //   </KeyboardAvoidingView>
-  // );
   return (
     <FormSection
       title="Cadastro de Beneficiado"

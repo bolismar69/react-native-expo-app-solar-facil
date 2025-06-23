@@ -1,0 +1,8 @@
+[
+  { "id": 1, "description": "0-100 kWh","status": "active" },
+  { "id": 2, "description": "101-200 kWh", "status": "active" },
+  { "id": 3, "description": "201-300 kWh", "status": "active" },
+  { "id": 4, "description": "301-400 kWh", "status": "active" },
+  { "id": 5, "description": "401-500 kWh", "status": "active" },
+  { "id": 10, "description": "+500 kWh", "status": "active" }
+]
