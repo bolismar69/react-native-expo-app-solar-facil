@@ -1,6 +1,9 @@
 import { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
 export interface AppThemeStyles {
+  
+  safe: ViewStyle;
+
   inputBorder: any;
   primary: string;
   secondary: string;
@@ -42,6 +45,10 @@ export interface AppThemeStyles {
   screen: {
     backgroundColor: string;
     flex: number;
+    padding: number;
+  };
+  screenNoFlex: {
+    backgroundColor: string;
     padding: number;
   };
 

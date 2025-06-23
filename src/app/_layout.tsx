@@ -1,10 +1,14 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialCommunityIcons, } from "@expo/vector-icons";
 import { AppThemeProvider } from "@/context/AppThemeContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
+// import SolEnergiaIcon from "@/assets/icones/sol_energia.png";
+// import { TabIcon } from "@/components/ui/TabIcon";
+// import { FaHouseDamage } from "react-icons/fa";
+// import { LiaHouseDamageSolid } from "react-icons/lia";
 
 const styles = StyleSheet.create({
   container: {
@@ -14,31 +18,65 @@ const styles = StyleSheet.create({
 
 export default function RootLayout() {
   console.log("RootLayout");
+
+  // const iconFocusedColor = "#2E7D32"; // Verde para o ícone focado
+  // const iconFocusedColor = "#388E3C"; // Verde para o ícone focado
+  const iconFocusedColor = "#43A047"; // Verde para o ícone focado
+  // const iconFocusedColor = "#04f611"; // Verde para o ícone focado
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <AppThemeProvider>
         <React.Fragment>
           <StatusBar style="auto" />
-          <Tabs>
+          <Tabs
+            screenOptions={{
+              tabBarInactiveTintColor: "#888", // Cor padrão para ícones não focados
+              tabBarActiveTintColor: iconFocusedColor, // Cor para ícones focados
+              tabBarActiveBackgroundColor: "#f0f0f0", // Cor de fundo para ícones focados
+              tabBarInactiveBackgroundColor: "#fff", // Cor de fundo para ícones não focados
+            }}
+          >
             <Tabs.Screen
               name="index"
               options={{
                 title: "Home",
                 headerShown: false,
                 tabBarLabel: "Home",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="home" color={color} size={size} />
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <Ionicons name="home"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />
             <Tabs.Screen
-              name="associado"
+              name="beneficiado"
               options={{
-                title: "Associado",
-                headerShown: true,
-                tabBarLabel: "+ Associado",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="people" color={color} size={size} />
+                title: "Beneficiado",
+                headerShown: false,
+                tabBarLabel: "+",
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <FontAwesome name="handshake-o"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
+                ),
+              }}
+            />
+            <Tabs.Screen
+              name="fornecedor"
+              options={{
+                title: "Fornecedor",
+                headerShown: false,
+                tabBarLabel: "+",
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <MaterialCommunityIcons
+                    name="home-lightning-bolt-outline"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />
@@ -46,10 +84,13 @@ export default function RootLayout() {
               name="planos"
               options={{
                 title: "Planos",
-                headerShown: true,
+                headerShown: false,
                 tabBarLabel: "Planos",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="pricetag-outline" color={color} size={size} />
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <Ionicons name="pricetag-outline"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />
@@ -57,10 +98,13 @@ export default function RootLayout() {
               name="sobre"
               options={{
                 title: "Sobre",
-                headerShown: true,
+                headerShown: false,
                 tabBarLabel: "Sobre",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="information-circle-outline" color={color} size={size} />
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <Ionicons name="information-circle-outline"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />
@@ -68,10 +112,13 @@ export default function RootLayout() {
               name="faq"
               options={{
                 title: "FAQ",
-                headerShown: true,
+                headerShown: false,
                 tabBarLabel: "FAQ",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="help-circle-outline" color={color} size={size} />
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <Ionicons name="help-circle-outline"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />
@@ -79,10 +126,13 @@ export default function RootLayout() {
               name="email"
               options={{
                 title: "Email",
-                headerShown: true,
+                headerShown: false,
                 tabBarLabel: "Email",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="mail-outline" color={color} size={size} />
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <Ionicons name="mail-outline"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />
@@ -90,10 +140,13 @@ export default function RootLayout() {
               name="whatsapp"
               options={{
                 title: "Whatsapp",
-                headerShown: true,
+                headerShown: false,
                 tabBarLabel: "Whatsapp",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="logo-whatsapp" color={color} size={size} />
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <Ionicons name="logo-whatsapp"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />
@@ -101,10 +154,13 @@ export default function RootLayout() {
               name="modo"
               options={{
                 title: "Modo",
-                headerShown: true,
+                headerShown: false,
                 tabBarLabel: "Modo",
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="moon-outline" color={color} size={size} />
+                tabBarIcon: ({ color, size, focused, }) => (
+                  <Ionicons name="moon-outline"
+                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
+                    size={size}
+                  />
                 ),
               }}
             />

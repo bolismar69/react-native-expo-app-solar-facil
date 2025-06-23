@@ -4,7 +4,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 const SolarFacilIconeLogo: React.FC = () => {
   return (
     <View style={styles.container}>
-      {/* <Image source={require("../../assets/images/solar-facil-favicon.png")} style={styles.logo} /> */}
+      {/* <Image source={require("@/assets/images/solar-facil-favicon.png")} style={styles.logo} /> */}
       <Text style={styles.title}>Solar Fácil</Text>
     </View>
   );

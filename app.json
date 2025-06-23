@@ -4,7 +4,7 @@
     "slug": "react-native-expo-app-solar-facil",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/solar-facil-icon.png",
+    "icon": "./src/assets/images/solar-facil-icon.png",
     "scheme": "solar-facil",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/solar-facil-adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/solar-facil-adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -21,14 +21,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/solar-facil-favicon.png"
+      "favicon": "./src/assets/images/solar-facil-favicon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/solar-facil-splash-icon.png",
+          "image": "./src/assets/images/solar-facil-splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

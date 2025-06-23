@@ -21,4 +21,9 @@ export type FieldDefinitionType<T> = {
   maxLength?: number;
   onSubmitEditing?: () => void;
   blurOnSubmit?: boolean;
+  mask?: string; // Máscara de entrada para campos específicos (ex: CPF, CNPJ)
+  inputProps?: Record<string, any>; // Propriedades adicionais para o campo de entrada
+  icon?: React.ReactNode; // Ícone associado ao campo
+  tooltip?: string; // Dica ou informação adicional sobre o campo
+  helpText?: string; // Texto de ajuda para o campo
 };
