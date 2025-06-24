@@ -248,3 +248,17 @@ https://www.arsesp.sp.gov.br/paginas/energia/concessionarias_cooperaticas.aspx
 
 ## relatorios publicos sobre energia eletrica
 https://www.gov.br/aneel/pt-br/centrais-de-conteudos/relatorios-e-indicadores/distribuicao/relatorios-distribuicao
+
+
+# ESTUDAR
+
+## funcionalidades a inserir
+
+1. usar as funções de select via native-picker
+https://github.com/react-native-picker/picker
+
+
+2. react-native-dropdown-picker
+https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/advanced/search
+
+

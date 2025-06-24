@@ -5,7 +5,7 @@ export type FieldDefinitionType<T> = {
   placeholder: string;
   keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
   secureTextEntry?: boolean;
-  type: "text" | "email" | "number" | "select" | "date" | "password" | "phone" | "checkbox" | "switch" | "radio" | "textarea";
+  type: "text" | "email" | "number" | "select" | "date" | "password" | "phone" | "checkbox" | "switch" | "radio" | "textarea" | "file" | "select-picker" | "select-dropdown-picker";
   options?: { label: string; value: string }[]; // For select fields
   required?: boolean; // Indicates if the field is mandatory
   validation?: (value: any) => string | null; // Custom validation function

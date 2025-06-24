@@ -6,6 +6,7 @@ import { FornecedorType } from "@/types/FornecedorType";
 import { validateFormData } from "@/utils/validates/validateFormData";
 import { isValidCNPJ, formatCNPJ } from "@/utils/validators/validatorCNPJ";
 import { brazilianStates } from "@/constants/states";
+import { salvarFornecedor } from "@/services/serviceFornecedor";
 
 interface Props {
   onSubmit?: (data: FornecedorType) => void;
@@ -156,7 +157,19 @@ export function FormFornecedor({ onSubmit }: Props) {
           console.warn("Erros de validação:", errors);
           return;
         }
-        onSubmit?.(data);
+        console.log("Dados do fornecedor:", data);
+        salvarFornecedor(data)
+          .then((response) => {
+            console.log("✅ Dados salvos com sucesso:", response);
+            alert("Fornecedor cadastrado com sucesso!");
+          })
+          .catch((error) => {
+            console.error("❌ Erro ao salvar fornecedor:", error);
+            alert("Erro ao cadastrar fornecedor. Tente novamente mais tarde.");
+          });
+        if (onSubmit) {
+          onSubmit?.(data);
+        }
       }}
     />
   );
