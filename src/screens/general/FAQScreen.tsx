@@ -1,25 +1,21 @@
 // src/screens/general/FAQScreen.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppTheme } from "@/context/AppThemeContext";
 import { MotiView } from "moti";
-import mockFaqs from "@/mocks/mockFaqs.json";
-
-type Faq = {
-  pergunta: string;
-  resposta: string;
-};
-
-type FaqGroup = {
-  titulo: string;
-  faqs: Faq[];
-};
+import { FAQCategoryType } from "@/types/FAQType";
+import { fetchFAQs } from "@/services/serviceFAQs";
 
 export default function FAQScreen() {
   const { theme } = useAppTheme();
+  const [FAQs, setFAQs] = useState<FAQCategoryType[]>([]);
   const [expandedGroups, setExpandedGroups] = useState<number[]>([]);
   const [expandedQuestions, setExpandedQuestions] = useState<{ [groupIndex: number]: number[] }>({});
+
+  useEffect(() => {
+    fetchFAQs().then(setFAQs);
+  }, []);
 
   const toggleGroup = (index: number) => {
     setExpandedGroups((prev) =>
@@ -55,7 +51,7 @@ export default function FAQScreen() {
         >
           <Text style={theme.title}>Perguntas Frequentes (FAQ)</Text>
 
-          {(mockFaqs as FaqGroup[]).map((group, groupIndex) => {
+          {(FAQs as FAQCategoryType[]).map((group, groupIndex) => {
             const isGroupOpen = expandedGroups.includes(groupIndex);
 
             return (
@@ -63,7 +59,6 @@ export default function FAQScreen() {
                 {/* Grupo: título */}
                 <TouchableOpacity
                   onPress={() => toggleGroup(groupIndex)}
-                  // style={[styles.groupHeader, { backgroundColor: theme.card.backgroundColor }]}
                   style={[styles.groupHeader, { backgroundColor: "#e0ffdd" }]}
                 >
                   <Text style={[theme.subtitle, { flex: 1 }]}>{group.titulo}</Text>

@@ -6,9 +6,10 @@ import { FieldDefinitionType } from "@/types/FieldDefinitionType";
 import { fetchPlanOptions } from "@/services/servicePlans";
 import { fetchConcessionariasOptions } from "@/services/serviceConcessionarias";
 import { fetchConsumoMedioOptions } from "@/services/serviceConsumoMedio";
-import { validateFormData } from "@/utils/validateFormData";
-import { isValidCPF, formatCPF } from "@/utils/validatorCPF";
+import { validateFormData } from "@/utils/validates/validateFormData";
+import { isValidCPF, formatCPF } from "@/utils/validators/validatorCPF";
 import { brazilianStates } from "@/constants/states";
+import { isValidRG, formatRG } from "@/utils/validators/validatorRG";
 
 interface Props {
   onSubmit?: (data: BeneficiadoType) => void;
@@ -48,10 +49,13 @@ export function FormBeneficiado({ onSubmit }: Props) {
     {
       name: "documentoIdentidade",
       label: "Documento de Identidade (RG)",
-      type: "text",
+      type: "number",
       placeholder: "12345678-9",
       required: false,
-      keyboardType: "default",
+      keyboardType: "numeric",
+      validation: (value: string) => (isValidRG(value) ? null : "RG inválido"),
+      formattedValue: formatRG,
+      errorMessage: "Formato esperado: 12.345.678-9",
     },
     {
       name: "dataNascimento",

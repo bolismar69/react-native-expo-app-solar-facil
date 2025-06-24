@@ -5,9 +5,14 @@ import plans from "@/mocks/mockPlans.json";
 export async function fetchPlans(): Promise<PlanType[]> {
   // Simula fetch com delay artificial
   return new Promise((resolve) => {
+    try{
     setTimeout(() => {
       resolve(plans as PlanType[]);
     }, 500);
+    } catch (error) {
+      console.error("Erro ao buscar dados de planos => ", error);
+      resolve([]);
+    }
   });
 }
 

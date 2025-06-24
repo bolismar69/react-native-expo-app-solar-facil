@@ -210,3 +210,41 @@ npm install @react-native-community/datetimepicker
 - Criar uma versão web-only sem moti, com fallback para animações simples.
 - Incluir Platform.select() para adaptar animações ou renderizações.
 - Gerar mocks de backend/API para testar fluxos mais completos em mobile.
+
+# ============ 
+## FORCAR CLONAR REPOSITORIO
+
+1. Clone o repositório remoto em uma nova pasta
+´´´bash
+git clone git@github.com:bolismar69/react-native-expo-app-solar-facil.git temp-solar-facil
+´´´
+
+2. Copie o conteúdo da sua pasta atual para a nova pasta (sem a pasta .git).
+´´´bash
+rsync -av --exclude=".git" ~/projetos/react-native-expo-app-solar-facil/ ~/temp-solar-facil/
+´´´
+
+3. Vá para a nova pasta clonada
+´´´bash
+cd ~/temp-solar-facil
+´´´
+
+4. Confirme os arquivos copiados
+´´´bash
+git status 
+´´´
+
+5. Faça o commit e o push forçado para o GitHub
+´´´bash
+git add .
+git commit -m "Atualização completa do projeto (sincronização forçada)"
+git push origin main --force
+´´
+
+# GERAIS GERAIS
+
+## site de permissionarias de energia eletrica
+https://www.arsesp.sp.gov.br/paginas/energia/concessionarias_cooperaticas.aspx
+
+## relatorios publicos sobre energia eletrica
+https://www.gov.br/aneel/pt-br/centrais-de-conteudos/relatorios-e-indicadores/distribuicao/relatorios-distribuicao

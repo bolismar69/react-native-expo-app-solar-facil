@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Controller, useForm, DefaultValues, Path } from "react-hook-form";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
 import { useAppTheme } from "@/context/AppThemeContext";
-import { validateFormData } from "@/utils/validateFormData";
+import { validateFormData } from "@/utils/validates/validateFormData";
 
 interface FormSectionProps<T extends Record<string, any>> {
   title?: string;

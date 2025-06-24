@@ -2,9 +2,9 @@
 import React from "react";
 import { FormSection } from "./FormSection";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
-import { FornecedorType } from "@/types/AssociadoType";
-import { validateFormData } from "@/utils/validateFormData";
-import { isValidCNPJ, formatCNPJ } from "@/utils/validatorCNPJ";
+import { FornecedorType } from "@/types/FornecedorType";
+import { validateFormData } from "@/utils/validates/validateFormData";
+import { isValidCNPJ, formatCNPJ } from "@/utils/validators/validatorCNPJ";
 import { brazilianStates } from "@/constants/states";
 
 interface Props {

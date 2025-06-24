@@ -186,4 +186,13 @@ export const lightTheme: AppThemeStyles = {
     fontSize: 16,
     marginBottom: 12,
   },
+
+  safe: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
+  screenNoFlex: {
+    backgroundColor: "#f0f0f0",
+    padding: 16,
+  },
 };

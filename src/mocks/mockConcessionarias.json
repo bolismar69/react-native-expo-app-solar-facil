@@ -1,7 +1,4 @@
 [
-  { "id": 1, "name": "Concessionária Solar Facil 1", "status": "inactive" },
-  { "id": 2, "name": "Concessionária Solar Facil 2", "status": "inactive" },
-  { "id": 3, "name": "Concessionária Solar Facil 3", "status": "inactive" },
   { "id": 4, "name": "Enel Distribuição São Paulo", "status": "active" },
   { "id": 5, "name": "CPFL Paulista", "status": "active" },
   { "id": 6, "name": "CPFL Piratininga", "status": "active" },

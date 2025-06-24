@@ -183,4 +183,13 @@ export const darkTheme: AppThemeStyles = {
     fontSize: 16,
     marginBottom: 12,
   },
+
+  safe: {
+    flex: 1,
+    backgroundColor: "#121212",
+  },
+  screenNoFlex: {
+    backgroundColor: "#121212",
+    padding: 16,
+  },
 };
