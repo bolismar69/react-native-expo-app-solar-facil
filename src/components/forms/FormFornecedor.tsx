@@ -6,7 +6,7 @@ import { FornecedorType } from "@/types/FornecedorType";
 import { validateFormData } from "@/utils/validates/validateFormData";
 import { isValidCNPJ, formatCNPJ } from "@/utils/validators/validatorCNPJ";
 import { brazilianStates } from "@/constants/states";
-import { salvarFornecedor } from "@/services/serviceFornecedor";
+import { salvarFornecedorMock } from "@/services/mock/serviceFornecedorMock";
 
 interface Props {
   onSubmit?: (data: FornecedorType) => void;
@@ -44,20 +44,16 @@ export function FormFornecedor({ onSubmit }: Props) {
       name: "cnpj",
       label: "CNPJ",
       placeholder: "12.345.678/0001-90",
-      type: "text",
+      type: "number",
       required: true,
       keyboardType: "numeric",
-      pattern: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
+      validation: (value: string) => (isValidCNPJ(value) ? null : "CNPJ inválido"),
       errorMessage: "Formato inválido. Use: 00.000.000/0000-00",
-      validation: (value: string) => {
-        if (!isValidCNPJ(value)) return "CNPJ inválido";
-        return null;
-      },
       formattedValue: formatCNPJ,
     },
     {
       name: "dataFundacao",
-      label: "Data de Nascimento",
+      label: "Data de Fundação",
       type: "date",
       required: true,
       placeholder: "DD/MM/AAAA",
@@ -158,14 +154,14 @@ export function FormFornecedor({ onSubmit }: Props) {
           return;
         }
         console.log("Dados do fornecedor:", data);
-        salvarFornecedor(data)
+        salvarFornecedorMock(data)
           .then((response) => {
-            console.log("✅ Dados salvos com sucesso:", response);
-            alert("Fornecedor cadastrado com sucesso!");
+            console.log("✅ Dados salvos com sucesso - salvarFornecedorMock:", response);
+            alert("Fornecedor cadastrado com sucesso (salvarFornecedorMock)!");
           })
           .catch((error) => {
-            console.error("❌ Erro ao salvar fornecedor:", error);
-            alert("Erro ao cadastrar fornecedor. Tente novamente mais tarde.");
+            console.error("❌ Erro ao salvar fornecedor - salvarFornecedorMock:", error);
+            alert("Erro ao cadastrar fornecedor. Tente novamente mais tarde (salvarFornecedorMock).");
           });
         if (onSubmit) {
           onSubmit?.(data);

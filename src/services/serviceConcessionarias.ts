@@ -6,12 +6,12 @@ const SIMULATION_DELAY = 500; // Configuração do tempo de simulação
 export async function fetchConcessionarias(): Promise<ConcessionariaType[]> {
   return new Promise((resolve, reject) => {
     try{
-    setTimeout(() => {
-      resolve(mockConcessionaria as ConcessionariaType[]);
-    }, SIMULATION_DELAY); // Simula um atraso de 500ms
-  } catch (error) {
-      reject(new Error("Erro ao buscar dados de concessionarias => " + error));
-  }
+      setTimeout(() => {
+        resolve(mockConcessionaria as ConcessionariaType[]);
+      }, SIMULATION_DELAY); // Simula um atraso de 500ms
+    } catch (error) {
+        reject(new Error("Erro ao buscar dados de concessionarias => " + error));
+    }
   });
 }
 

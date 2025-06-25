@@ -10,7 +10,8 @@ import { validateFormData } from "@/utils/validates/validateFormData";
 import { isValidCPF, formatCPF } from "@/utils/validators/validatorCPF";
 import { brazilianStates } from "@/constants/states";
 import { isValidRG, formatRG } from "@/utils/validators/validatorRG";
-import { salvarBeneficiado } from "@/services/serviceBeneficiado";
+// import { salvarBeneficiadoMock } from "@/services/mock/serviceBeneficiadoMock";
+import { salvarBeneficiado } from "@/services/storage/serviceBeneficiado";
 
 interface Props {
   onSubmit?: (data: BeneficiadoType) => void;
@@ -188,14 +189,13 @@ export function FormBeneficiado({ onSubmit }: Props) {
         }
         console.log("📤 Enviando dados do beneficiado:", data);
         salvarBeneficiado(data)
-          .then((response) => {
-            console.log("✅ Dados salvos com sucesso:", response);
-            alert("Beneficiado cadastrado com sucesso!");
+          .then(() => {
+            console.log("✅ Beneficiado salvo com sucesso!");
           })
           .catch((error) => {
             console.error("❌ Erro ao salvar beneficiado:", error);
-            alert("Erro ao cadastrar beneficiado. Tente novamente mais tarde.");
           });
+
         // Chama a função onSubmit passada como prop, se existir
         if (onSubmit) {
           onSubmit?.(data);
