@@ -21,14 +21,17 @@ export default function HomeScreen() {
           style={{ flex: 1, backgroundColor: theme.basicView.backgroundColor }}
           contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
         >
+
+          {/* Apresentação principal */}
+          <Text style={theme.title}>Solar Fácil</Text>
+
           {/* Banner com imagem */}
           <Image
             source={require("@/assets/solar-facil-antenas.png")}
             style={theme.imagePreview}
           />
 
-          {/* Apresentação principal */}
-          <Text style={theme.title}>Solar Fácil</Text>
+          {/* Descrição */}
           <Text style={theme.subtitle}>
             Sua plataforma inteligente para economizar com energia limpa e ajudar o planeta.
           </Text>

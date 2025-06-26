@@ -23,14 +23,14 @@ export default function SobreScreen() {
           contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
         >
 
+          {/* Título */}
+          <Text style={theme.title}>Sobre a Solar Fácil</Text>
+
           {/* Imagem institucional */}
           <Image
             source={require("@/assets/solar-facil-institucional.png")}
             style={theme.imagePreview}
           />
-
-          {/* Título */}
-          <Text style={theme.title}>Sobre a Solar Fácil</Text>
 
           {/* Apresentação institucional */}
           <Text style={theme.text}>

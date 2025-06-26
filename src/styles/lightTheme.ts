@@ -195,4 +195,19 @@ export const lightTheme: AppThemeStyles = {
     backgroundColor: "#f0f0f0",
     padding: 16,
   },
+
+  linkButton: {
+    backgroundColor: "#1E90FF",
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginBottom: 8,
+    alignSelf: "center",  
+  },
+  linkText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center",
+  },
 };

@@ -42,7 +42,15 @@ export async function salvarBeneficiado(beneficiado: BeneficiadoType): Promise<s
 
 // Retorna uma lista de BeneficiadoType
 export async function listarBeneficiados(): Promise<BeneficiadoType[]> {
-  return await carregarLista<BeneficiadoType>(FILENAME);
+  console.log("Iniciando o processo de listar beneficiados");
+  try {
+    const beneficiados = await carregarLista<BeneficiadoType>(FILENAME);
+    console.log("Lista de beneficiados carregada com sucesso:", beneficiados);
+    return beneficiados;
+  } catch (error) {
+    console.error("Erro ao carregar lista de beneficiados:", error);
+    throw new Error("Erro ao carregar lista de beneficiados");
+  }
 }
 
 // Atualiza um beneficiado existente

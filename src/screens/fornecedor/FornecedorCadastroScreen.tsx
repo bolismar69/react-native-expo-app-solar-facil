@@ -1,4 +1,3 @@
-// src/screens/beneficiado/BeneficiadoScreenV1.tsx
 import React from "react";
 import {
   KeyboardAvoidingView,
@@ -8,15 +7,14 @@ import {
   View,
 } from "react-native";
 import { useAppTheme } from "@/context/AppThemeContext";
-import { FormBeneficiado } from "@/components/forms/FormBeneficiado";
+import { FormFornecedor } from "@/components/forms/FormFornecedor";
 
-export default function BeneficiadoScreenV1() {
-  console.log("BeneficiadoScreen rendered");
+export default function FornecedorCadastroScreen() {
+  console.log("FornecedorScreen rendered");
   const { theme } = useAppTheme();
 
   const handleSubmit = (data: any) => {
-    console.log("Beneficiado cadastrado com sucesso:", data);
-    // Aqui pode integrar com API, salvar localmente, etc.
+    console.log("Fornecedor cadastrado com sucesso:", data);
   };
 
   return (
@@ -36,7 +34,7 @@ export default function BeneficiadoScreenV1() {
           keyboardShouldPersistTaps="handled"
         >
           <View style={{ gap: 24 }}>
-            <FormBeneficiado onSubmit={handleSubmit} />
+            <FormFornecedor onSubmit={handleSubmit} />
           </View>
         </ScrollView>
       </SafeAreaView>

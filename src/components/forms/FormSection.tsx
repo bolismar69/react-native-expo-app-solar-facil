@@ -12,7 +12,6 @@ interface FormSectionProps<T extends Record<string, any>> {
   onSubmit?: (data: T) => void;
 }
 
-// export function FormSectionNewVersion<T extends Record<string, any>>({
 export function FormSection<T extends Record<string, any>>({
   title,
   fields,
@@ -58,11 +57,9 @@ export function FormSection<T extends Record<string, any>>({
               : undefined,
             validate: field.validation
               ? (value) => {
-                if (typeof field.validation === "function") {
-                  const validationResult = field.validation(value);
-                  return validationResult || true;
-                }
-                return true;
+                const allValues = getValues();
+                const result = field.validation?.(value, allValues);
+                return result || true;
               }
               : undefined,
           }}

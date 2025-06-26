@@ -11,7 +11,17 @@ export async function salvarFornecedor(data: FornecedorType) {
 
 // Retorna uma lista de fornecedores
 export async function listarFornecedores(): Promise<FornecedorType[]> {
-  return await carregarLista<FornecedorType>(FILENAME);
+  console.log("Iniciando o processo de listar fornecedores");
+  try {
+    const fornecedores = await carregarLista<FornecedorType>(FILENAME);
+    console.log("Lista de fornecedores carregada com sucesso:", fornecedores);
+    return fornecedores;
+  } catch (error) {
+    console.error("Erro ao carregar lista de fornecedores:", error);
+    throw new Error("Erro ao carregar lista de fornecedores");
+  }
+
+
 }
 
 // atualize um fornecedor existente

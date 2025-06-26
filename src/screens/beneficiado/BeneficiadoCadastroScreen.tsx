@@ -1,3 +1,4 @@
+// src/screens/beneficiado/BeneficiadoScreenV1.tsx
 import React from "react";
 import {
   KeyboardAvoidingView,
@@ -7,27 +8,15 @@ import {
   View,
 } from "react-native";
 import { useAppTheme } from "@/context/AppThemeContext";
-import { FormFornecedor } from "@/components/forms/FormFornecedor";
+import { FormBeneficiado } from "@/components/forms/FormBeneficiado";
 
-export default function FornecedorScreen() {
-  console.log("FornecedorScreen rendered");
+export default function BeneficiadoCadastroScreen() {
+  console.log("BeneficiadoScreen rendered");
   const { theme } = useAppTheme();
 
   const handleSubmit = (data: any) => {
-    console.log("Fornecedor cadastrado com sucesso:", data);
-    // Aqui você pode adicionar a lógica para enviar os dados do fornecedor
-    // por exemplo, uma chamada de API para salvar os dados no servidor.
-    // Após o envio, você pode navegar para outra tela ou mostrar uma mensagem de sucesso.
-    // Exemplo:
-    // api.post('/fornecedores', data)
-    //   .then(response => {
-    //     console.log('Fornecedor cadastrado:', response.data);
-    //     // Navegar ou mostrar mensagem de sucesso
-    //   })
-    //   .catch(error => {
-    //     console.error('Erro ao cadastrar fornecedor:', error);
-    //     // Mostrar mensagem de erro
-    //   });
+    console.log("Beneficiado cadastrado com sucesso:", data);
+    // Aqui pode integrar com API, salvar localmente, etc.
   };
 
   return (
@@ -47,7 +36,7 @@ export default function FornecedorScreen() {
           keyboardShouldPersistTaps="handled"
         >
           <View style={{ gap: 24 }}>
-            <FormFornecedor onSubmit={handleSubmit} />
+            <FormBeneficiado onSubmit={handleSubmit} />
           </View>
         </ScrollView>
       </SafeAreaView>

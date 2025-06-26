@@ -8,7 +8,8 @@ export type FieldDefinitionType<T> = {
   type: "text" | "email" | "number" | "select" | "date" | "password" | "phone" | "checkbox" | "switch" | "radio" | "textarea" | "file" | "select-picker" | "select-dropdown-picker";
   options?: { label: string; value: string }[]; // For select fields
   required?: boolean; // Indicates if the field is mandatory
-  validation?: (value: any) => string | null; // Custom validation function
+  // validation?: (value: any) => string | null; // Custom validation function
+  validation?: (value: any, allValues: any) => string | null;
   formattedValue?: (value: any) => string; // Função de formatação customizada (ex: formatar CPF)
   defaultValue?: any; // Default value for the field
   pattern?: RegExp; // Regex pattern for validation
@@ -26,4 +27,12 @@ export type FieldDefinitionType<T> = {
   icon?: React.ReactNode; // Ícone associado ao campo
   tooltip?: string; // Dica ou informação adicional sobre o campo
   helpText?: string; // Texto de ajuda para o campo
+  conditional?: {
+    field: keyof T; // Campo que determina a condição
+    value: any; // Valor que ativa a condição
+  }; // Condicional para exibir o campo
+  isVisible?: boolean; // Indica se o campo está visível
+  isDisabled?: boolean; // Indica se o campo está desabilitado
+  isReadOnly?: boolean; // Indica se o campo é somente leitura
+  isEditable?: boolean; // Indica se o campo é editável
 };

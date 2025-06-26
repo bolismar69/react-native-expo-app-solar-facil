@@ -13,7 +13,7 @@ import {
 import { useAppTheme } from "@/context/AppThemeContext";
 import { FormBeneficiado } from "@/components/forms/FormBeneficiado";
 
-export default function BeneficiadoScreen() {
+export default function BeneficiadoLoginScreen() {
   const { theme } = useAppTheme();
   const [showForm, setShowForm] = useState(false);
   const [cpf, setCpf] = useState("");

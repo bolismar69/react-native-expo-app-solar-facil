@@ -1,7 +1,7 @@
 // src/utils/validateFormData.ts
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
 
-export function validateFormData<T extends Record<string, any>>(
+export function validateFormDataV1<T extends Record<string, any>>(
   formData: T,
   fields: FieldDefinitionType<T>[]
 ): Partial<Record<keyof T, string>> {
@@ -24,10 +24,10 @@ export function validateFormData<T extends Record<string, any>>(
       continue;
     }
 
-    // Validação customizada com (value, allValues)
+    // Validação customizada
     if (field.validation) {
-      const result = field.validation(value, formData);
-      if (result !== null && result !== undefined) {
+      const result = field.validation(value);
+      if (result !== null) {
         errors[fieldName] = result;
         continue;
       }
@@ -40,7 +40,7 @@ export function validateFormData<T extends Record<string, any>>(
     }
 
     // Validação numérica
-    if (field.type === "number" && value && !/^\d+(\.\d+)?$/.test(String(value))) {
+    if (field.type === "number" && value && !/^\d+$/.test(String(value))) {
       errors[fieldName] = `${field.label} deve conter apenas números`;
     }
   }

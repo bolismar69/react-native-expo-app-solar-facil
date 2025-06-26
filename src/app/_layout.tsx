@@ -52,28 +52,13 @@ export default function RootLayout() {
               }}
             />
             <Tabs.Screen
-              name="beneficiado"
+              name="associado"
               options={{
-                title: "Beneficiado",
+                title: "Associado",
                 headerShown: false,
-                tabBarLabel: "+",
+                tabBarLabel: "Venha",
                 tabBarIcon: ({ color, size, focused, }) => (
-                  <FontAwesome name="handshake-o"
-                    color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
-                    size={size}
-                  />
-                ),
-              }}
-            />
-            <Tabs.Screen
-              name="fornecedor"
-              options={{
-                title: "Fornecedor",
-                headerShown: false,
-                tabBarLabel: "+",
-                tabBarIcon: ({ color, size, focused, }) => (
-                  <MaterialCommunityIcons
-                    name="home-lightning-bolt-outline"
+                  <Ionicons name="construct-outline"
                     color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
                     size={size}
                   />

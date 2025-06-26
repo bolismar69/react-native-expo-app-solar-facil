@@ -1,6 +1,8 @@
 import { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
 export interface AppThemeStyles {
+  linkText: TextStyle;
+  linkButton: ViewStyle;
   
   safe: ViewStyle;
 

@@ -28,7 +28,7 @@ npm -v
 
 3. Em caos de testes, é melhor limpa a pasta .expo, para ela ser gerada novamente ( reprocessamentos podem deixar sujeiras nessa pasta ). Execute:
    ```bash
-  rm -rf .expo .expo-shared && npx expo start --clear
+   rm -rf .expo .expo-shared && npx expo start --clear
    ```
 
 4. Para executar com simulaodor de celular tem que criar a variavel de ambiente

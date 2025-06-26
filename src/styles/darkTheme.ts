@@ -192,4 +192,19 @@ export const darkTheme: AppThemeStyles = {
     backgroundColor: "#121212",
     padding: 16,
   },
+
+  linkButton: {
+    backgroundColor: "transparent",
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginBottom: 8,
+    alignSelf: "center",
+  },
+  linkText: {
+    color: "#bb86fc", // Roxo para links
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center",
+  },
 };
