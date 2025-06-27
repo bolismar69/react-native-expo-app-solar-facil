@@ -5,6 +5,7 @@ import { InputRadio } from "@/components/inputs/InputRadio";
 import { InputSelect } from "@/components/inputs/InputSelect";
 import { InputSwitch } from "@/components/inputs/InputSwitch";
 import { InputTextarea } from "@/components/inputs/InputTextarea";
+import { InputPasswordWithToggle } from "@/components/inputs/InputPasswordWithToggle";
 
 interface DynamicInputProps {
   type: string;
@@ -14,6 +15,7 @@ interface DynamicInputProps {
   onChange?: (value: any) => void;
   options?: { label: string; value: string }[];
   error?: string;
+  editable?: boolean;
 }
 
 export const DynamicInput: React.FC<DynamicInputProps> = ({
@@ -24,6 +26,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
   onChange,
   options,
   error,
+  editable = true, // Default value for editable
 }) => {
 
   // Renderiza um componente específico com base no tipo
@@ -35,6 +38,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
           value={value as Date}
           onChangeText={onChange ?? (() => { })}
           error={error}
+          editable={editable}
         />
       );
 
@@ -46,6 +50,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
           onChangeText={onChange ?? (() => { })}
           options={options || []}
           error={error}
+          editable={editable}
         />
       );
 
@@ -58,6 +63,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
           options={options || []}
           placeholder={placeholder}
           error={error}
+          editable={editable}
         />
       );
 
@@ -68,6 +74,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
           value={value as boolean}
           onChangeText={onChange ?? (() => { })}
           error={error}
+          editable={editable}
         />
       );
 
@@ -79,6 +86,18 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
           onChangeText={onChange ?? (() => { })}
           placeholder={placeholder}
           error={error}
+          editable={editable}
+        />
+      );
+    case "password":
+      return (
+        <InputPasswordWithToggle
+          label={label}
+          placeholder={placeholder}
+          value={value as string}
+          onChangeText={onChange}
+          error={error}
+          editable={editable}
         />
       );
 
@@ -91,6 +110,8 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
           value={value as string}
           onChangeText={onChange}
           error={error}
+          options={options}
+          editable={editable}
         />
       );
   }

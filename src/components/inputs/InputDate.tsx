@@ -16,6 +16,7 @@ interface InputDateProps {
   onChangeText: (val: Date) => void;
   onBlur?: () => void;
   error?: string;
+  editable?: boolean;
 }
 
 export function InputDate({
@@ -24,6 +25,7 @@ export function InputDate({
   onChangeText,
   onBlur,
   error,
+  editable = true, // Default value for editable
 }: InputDateProps) {
   const { theme } = useAppTheme();
   const [showPicker, setShowPicker] = useState(false);
@@ -79,6 +81,7 @@ export function InputDate({
                 mode="date"
                 display="spinner"
                 onChange={handleDateChange}
+                disabled={!editable}
               />
             </View>
           </Pressable>
@@ -90,6 +93,8 @@ export function InputDate({
             mode="date"
             display="default"
             onChange={handleDateChange}
+            // bloquear edição
+            disabled={!editable}
           />
         )
       )}

@@ -8,7 +8,6 @@ export type FieldDefinitionType<T> = {
   type: "text" | "email" | "number" | "select" | "date" | "password" | "phone" | "checkbox" | "switch" | "radio" | "textarea" | "file" | "select-picker" | "select-dropdown-picker";
   options?: { label: string; value: string }[]; // For select fields
   required?: boolean; // Indicates if the field is mandatory
-  // validation?: (value: any) => string | null; // Custom validation function
   validation?: (value: any, allValues: any) => string | null;
   formattedValue?: (value: any) => string; // Função de formatação customizada (ex: formatar CPF)
   defaultValue?: any; // Default value for the field
@@ -31,8 +30,7 @@ export type FieldDefinitionType<T> = {
     field: keyof T; // Campo que determina a condição
     value: any; // Valor que ativa a condição
   }; // Condicional para exibir o campo
-  isVisible?: boolean; // Indica se o campo está visível
-  isDisabled?: boolean; // Indica se o campo está desabilitado
-  isReadOnly?: boolean; // Indica se o campo é somente leitura
-  isEditable?: boolean; // Indica se o campo é editável
+  readonly?: boolean; // Indica se o campo é somente leitura
+  editable?: boolean; // Indica se o campo é editável
+  visible?: boolean; // Indica se o campo é visível
 };

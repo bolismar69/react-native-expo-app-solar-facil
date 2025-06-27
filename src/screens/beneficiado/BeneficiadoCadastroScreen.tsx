@@ -1,4 +1,4 @@
-// src/screens/beneficiado/BeneficiadoScreenV1.tsx
+// src/screens/beneficiado/BeneficiadoCadastroScreen.tsx
 import React from "react";
 import {
   KeyboardAvoidingView,

@@ -26,6 +26,7 @@ export const darkTheme: AppThemeStyles = {
     color: "#ffffff",
     marginBottom: 16,
     textAlign: "center",
+    backgroundColor: "#1e1e1e", // Fundo escuro para destaque
   },
 
   subtitle: {

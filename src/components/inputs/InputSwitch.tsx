@@ -8,6 +8,7 @@ interface InputSwitchProps {
   onChangeText: (val: boolean) => void;
   onBlur?: () => void;
   error?: string;
+  editable?: boolean;
 }
 
 export function InputSwitch({
@@ -16,6 +17,7 @@ export function InputSwitch({
   onChangeText,
   onBlur,
   error,
+  editable = true, // Default value for editable
 }: InputSwitchProps) {
   const { theme } = useAppTheme();
 
@@ -31,6 +33,7 @@ export function InputSwitch({
           }}
           trackColor={{ false: "#ccc", true: theme.primary }}
           thumbColor={value ? theme.secondary : "#f4f3f4"}
+          disabled={!editable}
         />
       </View>
 

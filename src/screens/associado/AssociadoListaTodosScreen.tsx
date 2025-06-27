@@ -8,6 +8,7 @@ import { listarAssociados, excluirAssociado } from "@/services/storage/serviceAs
 import { listarBeneficiados, excluirBeneficiado } from "@/services/storage/serviceBeneficiado";
 import { listarFornecedores, excluirFornecedor } from "@/services/storage/serviceFornecedor";
 import { useRouter } from "expo-router";
+import { limparArmazenamento } from "@/services/storage/storageUtils";
 
 type Categoria = "Associado" | "Beneficiado" | "Fornecedor";
 
@@ -45,6 +46,7 @@ const ItemComAcoes = ({ item, categoria, onEditar, onExcluir, onDetalhes }: Item
 };
 
 export default function AssociadoListaTodosScreen() {
+  console.log("AssociadoListaTodosScreen");
   const { theme } = useAppTheme();
   const router = useRouter();
 
@@ -53,6 +55,7 @@ export default function AssociadoListaTodosScreen() {
   const [fornecedores, setFornecedores] = useState<any[]>([]);
 
   const carregarDados = async () => {
+    console.log("Iniciando o processo de leitura de dados...");
     setAssociados(await listarAssociados());
     setBeneficiados(await listarBeneficiados());
     setFornecedores(await listarFornecedores());
@@ -84,13 +87,41 @@ export default function AssociadoListaTodosScreen() {
     );
   };
 
+  const apagarArquivosLocais = async () => {
+    Alert.alert(
+      "Limpar Armazenamento",
+      "Você tem certeza que deseja apagar todos os arquivos locais?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Limpar",
+          style: "destructive",
+          onPress: async () => {
+
+            console.log("Apagando todos os arquivos locais...");
+            await limparArmazenamento();
+            console.log("Todos os arquivos locais apagados.");
+
+            carregarDados();
+            Alert.alert("Sucesso", "Todos os arquivos locais foram apagados.");
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <ScrollView style={[{ padding: 16, backgroundColor: theme.screen.backgroundColor }]}>
+
+      <TouchableOpacity onPress={apagarArquivosLocais}>
+        <Text>🗑️ Apagar todos os arquivos locais</Text>
+      </TouchableOpacity>
+
       <Text style={theme.title}>Todos os Cadastrados</Text>
 
       {[...associados.map((item) => (
         <ItemComAcoes
-          key={`assoc-${item.cpf}`}
+          key={`assoc-${item.cpf_cnpj}`}
           item={item}
           categoria="Associado"
           onEditar={() => console.log("Editar associado")}
@@ -131,6 +162,7 @@ export default function AssociadoListaTodosScreen() {
           onDetalhes={() => console.log("Detalhes fornecedor")}
         />
       ))]}
+
     </ScrollView>
   );
 }

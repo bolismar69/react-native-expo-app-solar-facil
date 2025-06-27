@@ -1,11 +1,12 @@
 // src/screens/general/FAQScreen.tsx
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppTheme } from "@/context/AppThemeContext";
 import { MotiView } from "moti";
 import { FAQCategoryType } from "@/types/FAQType";
 import { fetchFAQs } from "@/services/serviceFAQs";
+import { ContatoRodape } from "@/components/ContatoRodape";
 
 export default function FAQScreen() {
   const { theme } = useAppTheme();
@@ -50,6 +51,17 @@ export default function FAQScreen() {
           contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
         >
           <Text style={theme.title}>Perguntas Frequentes (FAQ)</Text>
+
+          {/* Banner com imagem */}
+          <Image
+            source={require("@/assets/solar-facil-antenas.png")}
+            resizeMode="cover"
+            style={theme.imagePreview}
+          />
+
+          <Text style={[theme.subtitle, { marginBottom: 16 }]}>
+            Abaixo estão as perguntas mais frequentes sobre a Solar Fácil e energia solar.
+          </Text>
 
           {(FAQs as FAQCategoryType[]).map((group, groupIndex) => {
             const isGroupOpen = expandedGroups.includes(groupIndex);
@@ -117,6 +129,10 @@ export default function FAQScreen() {
               </View>
             );
           })}
+
+          {/* Ícones de Contato */}
+          <ContatoRodape label="Se você não encontrou a resposta para sua dúvida, entre em contato conosco, e nos siga na redes sociais." />
+
         </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>

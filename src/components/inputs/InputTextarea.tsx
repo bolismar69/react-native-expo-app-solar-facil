@@ -11,6 +11,7 @@ interface InputTextareaProps {
   error?: string;
   numberOfLines?: number;
   maxLength?: number;
+  editable?: boolean;
 }
 
 export function InputTextarea({
@@ -22,6 +23,7 @@ export function InputTextarea({
   error,
   numberOfLines = 4,
   maxLength = 500,
+  editable = true, // Default value for editable
 }: InputTextareaProps) {
   const { theme } = useAppTheme();
 
@@ -44,6 +46,7 @@ export function InputTextarea({
         onBlur={onBlur}
         placeholder={placeholder}
         placeholderTextColor={theme.placeholder.color}
+        editable={editable}
       />
       {error && <Text style={theme.inputError}>{error}</Text>}
     </View>

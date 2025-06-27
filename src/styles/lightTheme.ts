@@ -27,6 +27,7 @@ export const lightTheme: AppThemeStyles = {
     marginTop: 16,
     marginBottom: 16,
     textAlign: "center",
+    backgroundColor: "#ffffbf", // Fundo amarelo claro para destaque
   },
 
   subtitle: {

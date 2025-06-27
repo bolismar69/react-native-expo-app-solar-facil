@@ -45,7 +45,7 @@ export async function listarBeneficiados(): Promise<BeneficiadoType[]> {
   console.log("Iniciando o processo de listar beneficiados");
   try {
     const beneficiados = await carregarLista<BeneficiadoType>(FILENAME);
-    console.log("Lista de beneficiados carregada com sucesso:", beneficiados);
+    console.log("Lista de beneficiados carregada com sucesso:", beneficiados.length, "=> ", beneficiados);
     return beneficiados;
   } catch (error) {
     console.error("Erro ao carregar lista de beneficiados:", error);

@@ -24,6 +24,10 @@ export default function RootLayout() {
   const iconFocusedColor = "#43A047"; // Verde para o ícone focado
   // const iconFocusedColor = "#04f611"; // Verde para o ícone focado
 
+  // opcoes: "#ffff56", "#ffff42", "#ffff52", "#ffff7a", "#ffff9e", "#ffffbf", "#ffffdf"
+  const iconActiveBackgroundColor = "#ffffbf"; // Cor de fundo para ícones focados --default:"#f0f0f0"
+  const iconInactiveBackgroundColor = "#fff"; // Cor de fundo para ícones não foc
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <AppThemeProvider>
@@ -33,18 +37,18 @@ export default function RootLayout() {
             screenOptions={{
               tabBarInactiveTintColor: "#888", // Cor padrão para ícones não focados
               tabBarActiveTintColor: iconFocusedColor, // Cor para ícones focados
-              tabBarActiveBackgroundColor: "#f0f0f0", // Cor de fundo para ícones focados
-              tabBarInactiveBackgroundColor: "#fff", // Cor de fundo para ícones não focados
+              tabBarActiveBackgroundColor: iconActiveBackgroundColor, // Cor de fundo para ícones focados
+              tabBarInactiveBackgroundColor: iconInactiveBackgroundColor, // Cor de fundo para ícones não focados
             }}
           >
             <Tabs.Screen
               name="index"
               options={{
-                title: "Home",
+                title: "Home do Solar Facil",
                 headerShown: false,
-                tabBarLabel: "Home",
+                tabBarLabel: "Solar",
                 tabBarIcon: ({ color, size, focused, }) => (
-                  <Ionicons name="home"
+                  <Ionicons name="sunny-outline"
                     color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
                     size={size}
                   />
@@ -54,11 +58,11 @@ export default function RootLayout() {
             <Tabs.Screen
               name="associado"
               options={{
-                title: "Associado",
+                title: "Login",
                 headerShown: false,
-                tabBarLabel: "Venha",
+                tabBarLabel: "Login",
                 tabBarIcon: ({ color, size, focused, }) => (
-                  <Ionicons name="construct-outline"
+                  <Ionicons name="log-in-outline"
                     color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
                     size={size}
                   />
@@ -82,9 +86,9 @@ export default function RootLayout() {
             <Tabs.Screen
               name="sobre"
               options={{
-                title: "Sobre",
+                title: "Saiba Mais",
                 headerShown: false,
-                tabBarLabel: "Sobre",
+                tabBarLabel: "Saiba+",
                 tabBarIcon: ({ color, size, focused, }) => (
                   <Ionicons name="information-circle-outline"
                     color={focused ? iconFocusedColor : color} // Verde se focado, cor padrão caso contrário
@@ -107,7 +111,7 @@ export default function RootLayout() {
                 ),
               }}
             />
-            <Tabs.Screen
+            {/* <Tabs.Screen
               name="email"
               options={{
                 title: "Email",
@@ -120,8 +124,8 @@ export default function RootLayout() {
                   />
                 ),
               }}
-            />
-            <Tabs.Screen
+            /> */}
+            {/* <Tabs.Screen
               name="whatsapp"
               options={{
                 title: "Whatsapp",
@@ -134,8 +138,8 @@ export default function RootLayout() {
                   />
                 ),
               }}
-            />
-            <Tabs.Screen
+            /> */}
+            {/* <Tabs.Screen
               name="modo"
               options={{
                 title: "Modo",
@@ -148,7 +152,7 @@ export default function RootLayout() {
                   />
                 ),
               }}
-            />
+            /> */}
           </Tabs>
         </React.Fragment>
       </AppThemeProvider>

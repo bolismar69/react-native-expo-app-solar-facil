@@ -15,6 +15,7 @@ interface InputSelectProps {
   error?: string;
   options: Option[];
   placeholder?: string;
+  editable?: boolean;
 }
 
 export function InputSelect({
@@ -25,6 +26,7 @@ export function InputSelect({
   error,
   options,
   placeholder,
+  editable = true, // Default value for editable
 }: InputSelectProps) {
   const { theme } = useAppTheme();
   const [modalVisible, setModalVisible] = useState(false);
@@ -36,7 +38,7 @@ export function InputSelect({
       <Text style={[theme.label, { marginBottom: 4 }]}>{label}</Text>
 
       <TouchableOpacity
-        onPress={() => setModalVisible(true)}
+        onPress={() => setModalVisible(true && editable)}
         style={[
           theme.inputContainer,
           {

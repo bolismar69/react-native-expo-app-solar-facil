@@ -72,6 +72,7 @@ export function FormSection<T extends Record<string, any>>({
               onChange={onChange}
               options={field.options}
               error={errors?.[field.name as keyof T]?.message as string}
+              editable={field.editable}
             />
           )}
         />

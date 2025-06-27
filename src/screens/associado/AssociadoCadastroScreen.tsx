@@ -13,8 +13,7 @@ export default function AssociadoCadastroScreen() {
   const { theme } = useAppTheme();
 
   const handleSubmit = (data: any) => {
-    console.log("Associado cadastrado com sucesso:", data);
-    // Aqui pode integrar com serviço de persistência, API ou salvar localmente
+    console.log("AssociadoCadastroScreen - Associado cadastrado com sucesso:", data);
   };
 
   return (

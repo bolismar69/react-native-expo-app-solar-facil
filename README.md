@@ -249,6 +249,12 @@ https://www.arsesp.sp.gov.br/paginas/energia/concessionarias_cooperaticas.aspx
 ## relatorios publicos sobre energia eletrica
 https://www.gov.br/aneel/pt-br/centrais-de-conteudos/relatorios-e-indicadores/distribuicao/relatorios-distribuicao
 
+## sites com fotos para ideias 
+https://br.freepik.com/fotos-vetores-gratis/energia-solar-economia
+https://br.freepik.com/fotos-vetores-gratis/economia-energia-placa-solar-limpa
+https://www.istockphoto.com/br/fotos/economia-de-energia-solar?page=2
+
+
 
 # ESTUDAR
 

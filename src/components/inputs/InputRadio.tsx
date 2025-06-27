@@ -14,6 +14,7 @@ interface InputRadioProps {
   onBlur?: () => void;
   error?: string;
   options: Option[];
+  editable?: boolean;
 }
 
 export function InputRadio({
@@ -23,6 +24,7 @@ export function InputRadio({
   onBlur,
   error,
   options,
+  editable = true, // Default value for editable
 }: InputRadioProps) {
   const { theme } = useAppTheme();
 
@@ -32,6 +34,10 @@ export function InputRadio({
 
       {options.map((option) => {
         const isSelected = value === option.value;
+
+        if (!editable && !isSelected) {
+          return null;
+        }
 
         return (
           <TouchableOpacity

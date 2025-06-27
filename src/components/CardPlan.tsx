@@ -58,7 +58,7 @@ export function CardPlan({ plan }: CardPlanProps) {
 
               <View style={styles.titleRow}>
                 <Ionicons name={plan.icon} size={24} color="#fbbf24" style={{ marginRight: 12 }} />
-                <Text style={[theme.title, { fontWeight: "bold" }]}>Plano {plan.name}</Text>
+                <Text style={[theme.subtitle, { fontWeight: "bold" }]}>Plano {plan.name}</Text>
                 <TouchableOpacity onPress={handleFlip}>
                   <Ionicons name="information-circle-outline" size={24} color={theme.text.color} />
                 </TouchableOpacity>

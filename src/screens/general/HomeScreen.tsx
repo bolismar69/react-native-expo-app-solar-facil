@@ -1,13 +1,10 @@
 import { useAppTheme } from "@/context/AppThemeContext";
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image, KeyboardAvoidingView, Linking, Platform, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ContatoRodape } from "@/components/ContatoRodape";
 
 export default function HomeScreen() {
   const { theme } = useAppTheme();
-
-  const handlePress = (url: string) => {
-    Linking.openURL(url).catch((err) => console.error("Erro ao abrir URL:", err));
-  };
 
   return (
     <KeyboardAvoidingView
@@ -23,7 +20,7 @@ export default function HomeScreen() {
         >
 
           {/* Apresentação principal */}
-          <Text style={theme.title}>Solar Fácil</Text>
+          <Text style={theme.title}>Bem vindo a Solar Fácil</Text>
 
           {/* Banner com imagem */}
           <Image
@@ -33,7 +30,7 @@ export default function HomeScreen() {
 
           {/* Descrição */}
           <Text style={theme.subtitle}>
-            Sua plataforma inteligente para economizar com energia limpa e ajudar o planeta.
+            Sua plataforma inteligente, para economizar, com energia limpa e ajudar o planeta.
           </Text>
 
           {/* Cards com ícones e destaques */}
@@ -71,7 +68,7 @@ export default function HomeScreen() {
               Pague menos na sua conta de luz e acompanhe tudo de forma transparente.
             </Text>
             <TouchableOpacity style={theme.button}>
-              <Text style={theme.buttonText}>Ingresse como Beneficiado</Text>
+              <Text style={theme.buttonText}>Junte-se a nós e comece a economizar</Text>
             </TouchableOpacity>
           </View>
 
@@ -79,7 +76,7 @@ export default function HomeScreen() {
             <Ionicons name="rocket-outline" size={28} color={theme.title.color} />
             <Text style={theme.highlightText}>Retorno para Produtores</Text>
             <Text style={theme.text}>
-              Geração excedente? Venda sua energia diretamente e aumente seu retorno.
+              Geração excedente? Venha compartilhar com a comunidade e tenha retorno financeiro.
             </Text>
             <TouchableOpacity style={theme.button}>
               <Text style={theme.buttonText}>Ingresse como Fornecedor</Text>
@@ -87,7 +84,10 @@ export default function HomeScreen() {
           </View>
 
           {/* Ícones de Contato */}
-          <Text style={theme.subtitle}>Fale conosco:</Text>
+          <ContatoRodape label="Nos contate ou nos siga nas redes sociais para mais informações, e como colaborarmos para ajudar o planeta." />
+
+          {/* Seção Sobre */}
+          {/*           <Text style={theme.subtitle}>Nos contate ou nos siga nas redes sociais para mais informações</Text>
           <View style={{ flexDirection: "row", justifyContent: "space-around", marginTop: 8 }}>
             <TouchableOpacity onPress={() => handlePress("mailto:contato@solarfacil.com")}>
               <Ionicons name="mail" size={32} color={theme.title.color} />
@@ -104,7 +104,7 @@ export default function HomeScreen() {
             <TouchableOpacity onPress={() => handlePress("https://www.youtube.com/")}>
               <FontAwesome name="youtube" size={32} color="#FF0000" />
             </TouchableOpacity>
-          </View>
+          </View> */}
 
         </ScrollView>
       </SafeAreaView>

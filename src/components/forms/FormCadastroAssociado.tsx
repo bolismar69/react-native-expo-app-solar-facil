@@ -9,7 +9,11 @@ import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export function FormCadastroAssociado() {
+interface FormCadastroAssociadoProps {
+  onSubmit: (data: any) => void; // Define the onSubmit prop
+}
+
+export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) {
   const router = useRouter();
 
   const [mensagem, setMensagem] = useState<{
@@ -23,60 +27,28 @@ export function FormCadastroAssociado() {
 
   const fields: FieldDefinitionType<AssociadoType>[] = [
     {
-      name: "nome",
-      label: "Nome completo ou Razão Social",
-      placeholder: "João Silva",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "email",
-      label: "E-mail",
-      placeholder: "exemplo@email.com",
-      type: "email",
-      required: true,
-    },
-    {
-      name: "telefone",
-      label: "Telefone",
-      placeholder: "(11) 99999-0000",
-      type: "text",
-      required: true,
-    },
-    {
       name: "tipoPessoa",
       label: "Tipo de Pessoa",
       placeholder: "Selecione",
       type: "select",
       required: true,
       options: [
-        { value: "fisica", label: "Pessoa Física" },
-        { value: "juridica", label: "Pessoa Jurídica" },
+        { value: "Pessoa Física", label: "Pessoa Física" },
+        { value: "Pessoa Jurídica", label: "Pessoa Jurídica" },
       ],
     },
     {
-      name: "cpf",
-      label: "CPF (se pessoa física)",
+      name: "cpf_cnpj",
+      label: "CPF/CNPJ",
       placeholder: "000.000.000-00",
       type: "text",
-      required: false,
+      required: true,
       keyboardType: "numeric",
       validation: (value, allValues) => {
         if (allValues.tipoPessoa === "fisica") {
           if (!value) return "CPF é obrigatório para pessoa física";
           if (!isValidCPF(value)) return "CPF inválido";
         }
-        return null;
-      },
-    },
-    {
-      name: "cnpj",
-      label: "CNPJ (se pessoa jurídica)",
-      placeholder: "00.000.000/0001-00",
-      type: "text",
-      required: false,
-      keyboardType: "numeric",
-      validation: (value, allValues) => {
         if (allValues.tipoPessoa === "juridica") {
           if (!value) return "CNPJ é obrigatório para pessoa jurídica";
           if (!isValidCNPJ(value)) return "CNPJ inválido";
@@ -84,19 +56,95 @@ export function FormCadastroAssociado() {
         return null;
       },
     },
+    {
+      name: "nome",
+      label: "Nome completo ou Razão Social",
+      placeholder: "João Silva",
+      type: "text",
+      required: true,
+      toUpperCase: true,
+    },
+    {
+      name: "email",
+      label: "E-mail",
+      placeholder: "exemplo@email.com",
+      type: "email",
+      required: true,
+      validation: (value) => {
+        if (!value) return "E-mail é obrigatório";
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return "E-mail inválido";
+        return null;
+      }
+    },
+    {
+      name: "telefone",
+      label: "Telefone",
+      placeholder: "(11) 99999-0000",
+      type: "text",
+      required: true,
+      validation: (value) => {
+        if (!value) return "Telefone é obrigatório";
+        const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
+        if (!phoneRegex.test(value)) return "Telefone inválido. Formato esperado: (XX) XXXXX-XXXX";
+        return null;
+      }
+    },
+    {
+      name: "senha",
+      label: "Senha",
+      placeholder: "Digite sua senha",
+      type: "password",
+      required: true,
+      validation: (value) => {
+        if (!value) return "Senha é obrigatória";
+        if (value.length < 6) return "A senha deve ter pelo menos 6 caracteres";
+        return null;
+      }
+    }
   ];
 
   const initialValues: AssociadoType = {
+    id: "",
+    tipoPessoa: "Pessoa Física",
+    cpf_cnpj: "",
     nome: "",
     email: "",
     telefone: "",
-    tipoPessoa: "fisica",
-    cpf: "",
-    cnpj: "",
+    dataCadastro: "", // Example default value
+    dataAtualizacao: "", // Example default value
+    senha: "",
+    status: "Em cadastro", // Example default value
+    tipoAssociado: "Beneficiado", // Example default value
+    cep: "",
+    endereco: "",
+    numero: "",
+    bairro: "",
+    cidade: "",
+    estado: "",
+    complemento: "",
+    aceitaTermos: "Sim",
+    observacoes: "",
+    dataNascimento: "", // Example default value
+    nomeSocial: "", // Example default value
+    dataAbertura: "", // Example default value
+    razaoSocial: "", // Example default value
+    nomeFantasia: "", // Example default value
+    nomeConcessionaria: "", // Example default value
+    consumoMedio: "", // Example default value
+    planoDesejado: "", // Example default value
+    potenciaInstalada: "", // Example default value
+    disponibilidade: "", // Example default value
+    tipoConexao: "", // Example default value
   };
 
   const handleSubmit = async (data: AssociadoType) => {
     try {
+      // cria um id único para o associado
+      data.id = `${Date.now()}`;
+      data.dataCadastro = new Date().toISOString();
+      data.dataAtualizacao = new Date().toISOString();
+
       await salvarAssociado(data);
       setDadosAssociado(data); // <== salva para usar na navegação
       setMensagem({

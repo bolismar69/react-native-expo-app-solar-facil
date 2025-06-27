@@ -14,7 +14,7 @@ export async function listarFornecedores(): Promise<FornecedorType[]> {
   console.log("Iniciando o processo de listar fornecedores");
   try {
     const fornecedores = await carregarLista<FornecedorType>(FILENAME);
-    console.log("Lista de fornecedores carregada com sucesso:", fornecedores);
+    console.log("Lista de fornecedores carregada com sucesso:", fornecedores.length, "=>", fornecedores);
     return fornecedores;
   } catch (error) {
     console.error("Erro ao carregar lista de fornecedores:", error);

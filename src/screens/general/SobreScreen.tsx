@@ -1,14 +1,11 @@
 import { useAppTheme } from "@/context/AppThemeContext";
-import { Image, KeyboardAvoidingView, Linking, Platform, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text } from "react-native";
 import CardIconeAmarelo from "@/components/CardIconeAmarelo";
 import CardIconePadrao from "@/components/CardIconePadrao";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { ContatoRodape } from "@/components/ContatoRodape";
 
 export default function SobreScreen() {
   const { theme } = useAppTheme();
-  const handlePress = (url: string) => {
-    Linking.openURL(url).catch((err) => console.error("Erro ao abrir URL:", err));
-  };
 
   return (
     <KeyboardAvoidingView
@@ -27,8 +24,14 @@ export default function SobreScreen() {
           <Text style={theme.title}>Sobre a Solar Fácil</Text>
 
           {/* Imagem institucional */}
-          <Image
+          {/* <Image
             source={require("@/assets/solar-facil-institucional.png")}
+            style={theme.imagePreview}
+          /> */}
+          {/* Banner com imagem */}
+          <Image
+            source={require("@/assets/solar-facil-antenas.png")}
+            resizeMode="cover"
             style={theme.imagePreview}
           />
 
@@ -111,9 +114,10 @@ export default function SobreScreen() {
             theme={theme}
           />
 
-          {/* Contato */}
-          <Text style={theme.subtitle}>Quer fazer parte?</Text>
+          {/* Ícones de Contato */}
+          <ContatoRodape label="Caso tenha mais dúvidas, nos contate ou nos siga nas redes sociais para mais informações, e conhecer melhor nossa proposta de ajudar o planeta, e como economizar e agregar ganhos com a energia." />
 
+          {/*           <Text style={theme.subtitle}>Nos contate ou nos siga nas redes sociais para mais informações</Text>
           <View style={{ flexDirection: "row", justifyContent: "space-around", marginTop: 8 }}>
             <TouchableOpacity onPress={() => handlePress("mailto:contato@solarfacil.com")}>
               <Ionicons name="mail" size={32} color={theme.title.color} />
@@ -130,7 +134,7 @@ export default function SobreScreen() {
             <TouchableOpacity onPress={() => handlePress("https://www.youtube.com/")}>
               <FontAwesome name="youtube" size={32} color="#FF0000" />
             </TouchableOpacity>
-          </View>
+          </View> */}
 
         </ScrollView>
       </SafeAreaView>
