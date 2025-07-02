@@ -4,6 +4,8 @@ export const lightTheme: AppThemeStyles = {
   primary: "#1E5631",
   secondary: "#A5C9CA",
   links: "#1E90FF",
+  backgroundColor: "#ffffbf",
+  textColor: "#000",
 
   basicView: {
     backgroundColor: "#fff",
@@ -29,7 +31,7 @@ export const lightTheme: AppThemeStyles = {
     textAlign: "center",
     backgroundColor: "#ffffbf", // Fundo amarelo claro para destaque
   },
-
+  
   subtitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -72,14 +74,34 @@ export const lightTheme: AppThemeStyles = {
   },
 
   button: {
-    backgroundColor: "#1E5631",
+    backgroundColor: "#1E5631", // Verde escuro
     paddingVertical: 10,
     paddingHorizontal: 24,
     borderRadius: 8,
     marginBottom: 8,
     alignSelf: "center",
   },
-
+  buttonLow: {
+    backgroundColor: "#1E5631", // Verde escuro
+    // paddingVertical: 10,
+    // paddingHorizontal: 24,
+    borderRadius: 8,
+    // marginBottom: 8,
+    alignSelf: "center",
+    height: 32, // Altura do botão
+    width: "25%", // Largura total do botão
+    justifyContent: "center", // Centraliza o texto verticalmente
+    alignItems: "center", // Centraliza o texto horizontalmente
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,   // Deslocamento horizontal da sombra
+      height: 2,  // Deslocamento vertical da sombra
+    },
+    shadowOpacity: 0.25, // Opacidade da sombra
+    shadowRadius: 3.84, // Raio de desfoque da sombra
+    elevation: 5, // Elevação para Android
+  },
+  
   secondaryButton: {
     backgroundColor: "#A5C9CA",
     paddingVertical: 10,
@@ -210,5 +232,25 @@ export const lightTheme: AppThemeStyles = {
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+
+  // Estilos para o rodapé
+  footer: {
+    backgroundColor: "#f0f0f0", // Fundo cinza claro para o rodapé
+    textColor: "#888888", // Cinza claro para o texto do rodapé
+  },
+  footerText: {
+    // #7a7a7a#6c6c6c #5f5f5f #515151 #444444
+    backgroundColor: "#f0f0f0", // Fundo cinza claro para o rodapé
+    color: "#888888", // Cinza claro para o texto do rodapé
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 0,
+    padding: 0,
+  },
+
+  header: {
+    backgroundColor: "#fff",
+    textColor: "#000",
   },
 };

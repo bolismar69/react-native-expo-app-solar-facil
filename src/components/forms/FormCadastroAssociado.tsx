@@ -144,6 +144,7 @@ export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) 
       data.id = `${Date.now()}`;
       data.dataCadastro = new Date().toISOString();
       data.dataAtualizacao = new Date().toISOString();
+      data.cpf_cnpj = data.cpf_cnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
 
       await salvarAssociado(data);
       setDadosAssociado(data); // <== salva para usar na navegação
@@ -167,7 +168,7 @@ export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) 
 
     if (mensagem?.tipo === "success" && dadosAssociado) {
       router.push({
-        pathname: "/associado/dadoscadastrais",
+        pathname: "/dadoscadastrais",
         params: { ...dadosAssociado },
       });
     }
@@ -210,6 +211,7 @@ export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) 
           fields={fields}
           initialValues={initialValues}
           onSubmit={handleSubmit}
+          isSubmit={true}
         />
       )}
     </View>

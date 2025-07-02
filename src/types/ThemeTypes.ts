@@ -1,6 +1,15 @@
 import { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
 export interface AppThemeStyles {
+  header: {
+    backgroundColor: string;
+    textColor: string;
+  }
+  footer: {
+    backgroundColor: string;
+    textColor: string;
+  },
+  footerText: TextStyle
   linkText: TextStyle;
   linkButton: ViewStyle;
   
@@ -10,6 +19,8 @@ export interface AppThemeStyles {
   primary: string;
   secondary: string;
   links: string;
+  backgroundColor: string;
+  textColor: string;
 
   basicView: ViewStyle;
   basicText: TextStyle;
@@ -21,6 +32,7 @@ export interface AppThemeStyles {
   highlightText: TextStyle;
 
   button: ViewStyle;
+  buttonLow: ViewStyle;
   secondaryButton: ViewStyle;
   buttonText: TextStyle;
 

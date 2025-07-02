@@ -1,7 +1,8 @@
 import { useAppTheme } from "@/context/AppThemeContext";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { ContatoRodape } from "@/components/ContatoRodape";
+import { ContatoRodape } from "@/components/ContatoRodapeIconesContato";
+import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
 
 export default function HomeScreen() {
   const { theme } = useAppTheme();
@@ -20,7 +21,7 @@ export default function HomeScreen() {
         >
 
           {/* Apresentação principal */}
-          <Text style={theme.title}>Bem vindo a Solar Fácil</Text>
+          {/* <Text style={theme.title}>Bem vindo a Solar Fácil</Text> */}
 
           {/* Banner com imagem */}
           <Image
@@ -84,7 +85,7 @@ export default function HomeScreen() {
           </View>
 
           {/* Ícones de Contato */}
-          <ContatoRodape label="Nos contate ou nos siga nas redes sociais para mais informações, e como colaborarmos para ajudar o planeta." />
+          <ContatoRodape label="Nos contate ou nos siga nas redes sociais, e venha conhecer mais a Solar Fácil, e lhe mostraremos como economizar com energia elétrica, ou como rentabilizar sua produção." />
 
           {/* Seção Sobre */}
           {/*           <Text style={theme.subtitle}>Nos contate ou nos siga nas redes sociais para mais informações</Text>
@@ -107,6 +108,7 @@ export default function HomeScreen() {
           </View> */}
 
         </ScrollView>
+        <ContatoRodapeCopyRight />
       </SafeAreaView>
     </KeyboardAvoidingView>
   );

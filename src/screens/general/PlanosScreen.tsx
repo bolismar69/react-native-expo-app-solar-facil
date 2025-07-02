@@ -4,7 +4,8 @@ import { PlanType } from "@/types/PlanType";
 import { fetchPlans } from "@/services/servicePlans";
 import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text } from "react-native";
 import { useEffect, useState } from "react";
-import { ContatoRodape } from "@/components/ContatoRodape";
+import { ContatoRodape } from "@/components/ContatoRodapeIconesContato";
+import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
 
 export default function PlanosScreen() {
   const { theme } = useAppTheme();
@@ -26,7 +27,7 @@ export default function PlanosScreen() {
           style={{ flex: 1, backgroundColor: theme.basicView.backgroundColor }}
           contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
         >
-          <Text style={theme.title}>Planos Comerciais</Text>
+          {/* <Text style={theme.title}>Planos Comerciais</Text> */}
 
           {/* Banner com imagem */}
           <Image
@@ -44,9 +45,10 @@ export default function PlanosScreen() {
           ))}
 
           {/* Ícones de Contato */}
-          <ContatoRodape label="Para saber mais detalhes sobre nossos planos e propostas, entre em contato conosco." />
+          <ContatoRodape label="Para saber mais detalhes sobre nossos planos e propostas, de ganhos em economia com energia elétrica, ou como rentabilizar com a sua produção de energia elétrica, entre em contato conosco." />
 
         </ScrollView>
+        <ContatoRodapeCopyRight />
       </SafeAreaView>
     </KeyboardAvoidingView>
   );

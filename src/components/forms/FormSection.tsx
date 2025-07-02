@@ -1,5 +1,5 @@
 import { DynamicInput } from "@/components/inputs/DynamicInput";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Controller, useForm, DefaultValues, Path } from "react-hook-form";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
 import { useAppTheme } from "@/context/AppThemeContext";
@@ -10,6 +10,7 @@ interface FormSectionProps<T extends Record<string, any>> {
   fields: FieldDefinitionType<T>[];
   initialValues: DefaultValues<T>;
   onSubmit?: (data: T) => void;
+  isSubmit?: boolean;
 }
 
 export function FormSection<T extends Record<string, any>>({
@@ -17,6 +18,7 @@ export function FormSection<T extends Record<string, any>>({
   fields,
   initialValues,
   onSubmit,
+  isSubmit,
 }: FormSectionProps<T>) {
   const { theme } = useAppTheme();
 
@@ -44,7 +46,6 @@ export function FormSection<T extends Record<string, any>>({
   return (
     <View style={{ gap: 16 }}>
       {title && <Text style={[theme.title]}>{title}</Text>}
-
       {fields.map((field) => (
         <Controller
           key={field.name as string}
@@ -78,7 +79,7 @@ export function FormSection<T extends Record<string, any>>({
         />
       ))}
 
-      {onSubmit && (
+      {onSubmit && isSubmit && (
         <TouchableOpacity
           style={[theme.button, { marginTop: 16 }]}
           onPress={handleValidationAndSubmit}

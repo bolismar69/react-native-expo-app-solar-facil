@@ -4,6 +4,8 @@ export const darkTheme: AppThemeStyles = {
   primary: "#A5C9CA", // Azul claro
   secondary: "#1E5631", // Verde escuro
   links: "#bb86fc", // Roxo para links
+  backgroundColor: "#1e1e1e", // Fundo escuro -- "#121212"
+  textColor: "#ffffff", // Texto branco
 
   basicView: {
     backgroundColor: "#121212",
@@ -24,6 +26,7 @@ export const darkTheme: AppThemeStyles = {
     fontSize: 24,
     fontWeight: "bold",
     color: "#ffffff",
+    marginTop: 16,
     marginBottom: 16,
     textAlign: "center",
     backgroundColor: "#1e1e1e", // Fundo escuro para destaque
@@ -75,6 +78,26 @@ export const darkTheme: AppThemeStyles = {
     borderRadius: 8,
     marginBottom: 8,
     alignSelf: "center",
+  },
+  buttonLow: {
+    backgroundColor: "#bb86fc",
+    // paddingVertical: 10,
+    // paddingHorizontal: 24,
+    borderRadius: 8,
+    // marginBottom: 8,
+    alignSelf: "center",
+    height: 32, // Altura do botão
+    width: "25%", // Largura total do botão
+    justifyContent: "center", // Centraliza o texto verticalmente
+    alignItems: "center", // Centraliza o texto horizontalmente
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,   // Deslocamento horizontal da sombra
+      height: 2,  // Deslocamento vertical da sombra
+    },
+    shadowOpacity: 0.25, // Opacidade da sombra
+    shadowRadius: 3.84, // Raio de desfoque da sombra
+    elevation: 5, // Elevação para Android
   },
 
   secondaryButton: {
@@ -207,5 +230,22 @@ export const darkTheme: AppThemeStyles = {
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+
+  footer: {
+    backgroundColor: "#1e1e1e", // Fundo escuro para o rodapé
+    textColor: "#888888", // Cinza claro para o texto do rodapé
+  },
+  footerText: {
+    color: "#888888", // Cinza claro para o texto do rodapé
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 16,
+    padding: 0, // Removido padding para rodapé
+  },
+
+  header: {
+    backgroundColor: "#333",
+    textColor: "#fff",
   },
 };

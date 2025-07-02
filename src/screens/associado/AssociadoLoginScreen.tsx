@@ -1,13 +1,16 @@
 import { useRouter } from "expo-router";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { useAppTheme } from "@/context/AppThemeContext";
+import { useAuth } from "@/context/AuthContext";
 import { buscarAssociadoPorCpfCnpjSenha } from "@/services/storage/serviceAssociado";
 import { AssociadoType } from "@/types/AssociadoType";
 import { Ionicons } from "@expo/vector-icons";
+import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
 
 export default function AssociadoLoginScreen() {
   const { theme } = useAppTheme();
+  const { login, logout, isLoggedIn, associado } = useAuth();
   const router = useRouter();
 
   const [identificador, setIdentificador] = useState("");
@@ -25,8 +28,9 @@ export default function AssociadoLoginScreen() {
 
       if (resultado.length > 0) {
         const associado = resultado[0];
+        login(associado.id, associado.nome, associado); // associado vem da resposta do serviço
         router.push({
-          pathname: "/associado/dadoscadastrais",
+          pathname: "/cadastro",
           params: associado,
         });
       } else {
@@ -41,66 +45,96 @@ export default function AssociadoLoginScreen() {
   };
 
   return (
-    <View style={theme.container}>
-      <Text style={[theme.subtitle, { marginBottom: 16 }]}>
-        Informe seu CPF ou CNPJ para entrar
-      </Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView style={[{ padding: 16, backgroundColor: theme.screen.backgroundColor }]}>
 
-      <View style={[{ flexDirection: "row", alignItems: "center", marginBottom: 12, marginLeft: 32, marginRight: 32 }]}>
-        <TextInput
-          placeholder="CPF ou CNPJ, cadastrado"
-          style={[theme.input, { flex: 1 }]}
-          value={identificador}
-          onChangeText={setIdentificador}
-        // autoCapitalize="none"
-        />
-      </View>
+          {/* Esta parte pedira o login caso não esteja logado */}
+          {isLoggedIn === false
+            ? (
+              <View style={theme.container}>
+                <Text style={[theme.subtitle, { marginBottom: 16 }]}>
+                  Informe seu CPF ou CNPJ para entrar
+                </Text>
 
-      {/* Campo de senha com botão de ver/ocultar */}
-      <View style={[{ flexDirection: "row", alignItems: "center", marginBottom: 12, marginLeft: 32, marginRight: 32 }]}>
-        <TextInput
-          placeholder="Senha"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry={!mostrarSenha}
-          style={[theme.input, { flex: 1 }]}
-          placeholderTextColor={theme.placeholder.color}
-        />
-        <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
-          <Ionicons
-            name={mostrarSenha ? "eye" : "eye-off"}
-            size={24}
-            color={theme.placeholder.color}
-          />
-        </TouchableOpacity>
-      </View>
+                <View style={[{ flexDirection: "row", alignItems: "center", marginBottom: 12, marginLeft: 32, marginRight: 32 }]}>
+                  <TextInput
+                    placeholder="CPF ou CNPJ, cadastrado"
+                    style={[theme.input, { flex: 1 }]}
+                    value={identificador}
+                    onChangeText={setIdentificador}
+                  // autoCapitalize="none"
+                  />
+                </View>
 
-      {mensagemErro && (
-        <Text style={{ color: "red", marginBottom: 12, textAlign: "center" }}>
-          {mensagemErro}
-        </Text>
-      )}
+                {/* Campo de senha com botão de ver/ocultar */}
+                <View style={[{ flexDirection: "row", alignItems: "center", marginBottom: 12, marginLeft: 32, marginRight: 32 }]}>
+                  <TextInput
+                    placeholder="Senha"
+                    value={senha}
+                    onChangeText={setSenha}
+                    secureTextEntry={!mostrarSenha}
+                    style={[theme.input, { flex: 1 }]}
+                    placeholderTextColor={theme.placeholder.color}
+                  />
+                  <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
+                    <Ionicons
+                      name={mostrarSenha ? "eye" : "eye-off"}
+                      size={24}
+                      color={theme.placeholder.color}
+                    />
+                  </TouchableOpacity>
+                </View>
 
-      <TouchableOpacity
-        onPress={handleLogin}
-        disabled={loading}
-        style={[theme.button, { padding: 16 }]}
-      >
-        <Text style={[theme.buttonText, { fontWeight: "600", textAlign: "center" }]}>
-          {loading ? "Validando..." : "ENTRAR"}
-        </Text>
-      </TouchableOpacity>
+                {mensagemErro && (
+                  <Text style={{ color: "red", marginBottom: 12, textAlign: "center" }}>
+                    {mensagemErro}
+                  </Text>
+                )}
 
-      <Text style={[theme.text, { marginTop: 32, marginBottom: 16 }]}>ou</Text>
+                <TouchableOpacity
+                  onPress={handleLogin}
+                  disabled={loading}
+                  style={[theme.button, { padding: 16 }]}
+                >
+                  <Text style={[theme.buttonText, { fontWeight: "600", textAlign: "center" }]}>
+                    {loading ? "Validando..." : "ENTRAR"}
+                  </Text>
+                </TouchableOpacity>
 
-      <TouchableOpacity
-        onPress={() => router.push("/associado/cadastro")}
-        style={[theme.button, { padding: 16 }]}
-      >
-        <Text style={[theme.buttonText, { fontWeight: "600", textAlign: "center" }]}>
-          Cadastre-se e venha fazer parte da nossa comunidade!
-        </Text>
-      </TouchableOpacity>
-    </View>
+                <Text style={[theme.text, { marginTop: 32, marginBottom: 16 }]}>ou</Text>
+
+                <TouchableOpacity
+                  onPress={() => router.push("/cadastro")}
+                  style={[theme.button, { padding: 16 }]}
+                >
+                  <Text style={[theme.buttonText, { fontWeight: "600", textAlign: "center" }]}>
+                    Cadastre-se e venha fazer parte da nossa comunidade!
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={theme.container}>
+                {/* adicionar botão para fazer logout */}
+                <TouchableOpacity
+                  onPress={() =>
+                    logout()
+                  }
+                  style={[theme.button, { padding: 16 }]}
+                >
+                  <Text style={[theme.buttonText, { fontWeight: "600", textAlign: "center" }]}>
+                    Clique aqui para fazer logout
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+        </ScrollView>
+        <ContatoRodapeCopyRight />
+      </SafeAreaView>
+    </KeyboardAvoidingView >
   );
 }

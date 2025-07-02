@@ -1,12 +1,12 @@
 import { Text, TouchableOpacity } from "react-native";
-import { useTheme } from "../context/AppThemeContext";
+import { useAppTheme } from "../context/AppThemeContext";
 
 type Props = {
   onPress: () => void;
 };
 
 export function ThemedButton({ onPress }: Props) {
-  const { theme } = useTheme();
+  const { theme } = useAppTheme();
 
   return (
     <TouchableOpacity style={[theme.button]} onPress={onPress}>

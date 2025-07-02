@@ -1,6 +1,6 @@
 // src/screens/associado/AssociadoListaTodosScreen.tsx
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import { useAppTheme } from "@/context/AppThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { AssociadoType } from "@/types/AssociadoType";
@@ -8,7 +8,8 @@ import { listarAssociados, excluirAssociado } from "@/services/storage/serviceAs
 import { listarBeneficiados, excluirBeneficiado } from "@/services/storage/serviceBeneficiado";
 import { listarFornecedores, excluirFornecedor } from "@/services/storage/serviceFornecedor";
 import { useRouter } from "expo-router";
-import { limparArmazenamento } from "@/services/storage/storageUtils";
+import { limparArmazenamento, clearStorageDocumentDirectory } from "@/services/storage/storageUtils";
+import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
 
 type Categoria = "Associado" | "Beneficiado" | "Fornecedor";
 
@@ -92,14 +93,19 @@ export default function AssociadoListaTodosScreen() {
       "Limpar Armazenamento",
       "Você tem certeza que deseja apagar todos os arquivos locais?",
       [
-        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Cancelar",
+          style: "cancel",
+          onPress: () => { console.log("Operação cancelada") }
+        },
         {
           text: "Limpar",
           style: "destructive",
           onPress: async () => {
 
             console.log("Apagando todos os arquivos locais...");
-            await limparArmazenamento();
+            // await limparArmazenamento();
+            await clearStorageDocumentDirectory();
             console.log("Todos os arquivos locais apagados.");
 
             carregarDados();
@@ -111,58 +117,66 @@ export default function AssociadoListaTodosScreen() {
   };
 
   return (
-    <ScrollView style={[{ padding: 16, backgroundColor: theme.screen.backgroundColor }]}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+    >
+      <SafeAreaView style={{ flex: 1 }}>
 
-      <TouchableOpacity onPress={apagarArquivosLocais}>
-        <Text>🗑️ Apagar todos os arquivos locais</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={apagarArquivosLocais}>
+          <Text>🗑️ Apagar todos os arquivos locais</Text>
+        </TouchableOpacity>
 
-      <Text style={theme.title}>Todos os Cadastrados</Text>
+        <ScrollView style={[{ padding: 16, backgroundColor: theme.screen.backgroundColor }]}>
+          {/* <Text style={theme.title}>Todos os Cadastrados</Text> */}
 
-      {[...associados.map((item) => (
-        <ItemComAcoes
-          key={`assoc-${item.cpf_cnpj}`}
-          item={item}
-          categoria="Associado"
-          onEditar={() => console.log("Editar associado")}
-          onExcluir={() =>
-            confirmarRemocao("Associado", item, () => excluirAssociado(item))
-          }
-          onDetalhes={() =>
-            router.push({
-              pathname: "/associado/dadoscadastrais",
-              params: { ...item },
-            })
-          }
-        />
-      ))]}
+          {[...associados.map((item) => (
+            <ItemComAcoes
+              key={`assoc-${item.cpf_cnpj}`}
+              item={item}
+              categoria="Associado"
+              onEditar={() => console.log("Editar associado")}
+              onExcluir={() =>
+                confirmarRemocao("Associado", item, () => excluirAssociado(item))
+              }
+              onDetalhes={() =>
+                router.push({
+                  pathname: "/cadastro",
+                  params: { ...item },
+                })
+              }
+            />
+          ))]}
 
-      {[...beneficiados.map((item, index) => (
-        <ItemComAcoes
-          key={item.cpf}
-          item={item}
-          categoria="Beneficiado"
-          onEditar={() => console.log("Editar beneficiado")}
-          onExcluir={() =>
-            confirmarRemocao("Beneficiado", item, () => excluirBeneficiado(item.cpf))
-          }
-          onDetalhes={() => console.log("Detalhes beneficiado")}
-        />
-      ))]}
+          {[...beneficiados.map((item, index) => (
+            <ItemComAcoes
+              key={item.cpf}
+              item={item}
+              categoria="Beneficiado"
+              onEditar={() => console.log("Editar beneficiado")}
+              onExcluir={() =>
+                confirmarRemocao("Beneficiado", item, () => excluirBeneficiado(item.cpf))
+              }
+              onDetalhes={() => console.log("Detalhes beneficiado")}
+            />
+          ))]}
 
-      {[...fornecedores.map((item, index) => (
-        <ItemComAcoes
-          key={item.cnpj}
-          item={item}
-          categoria="Fornecedor"
-          onEditar={() => console.log("Editar fornecedor")}
-          onExcluir={() =>
-            confirmarRemocao("Fornecedor", item, () => excluirFornecedor(item.cnpj))
-          }
-          onDetalhes={() => console.log("Detalhes fornecedor")}
-        />
-      ))]}
-
-    </ScrollView>
+          {[...fornecedores.map((item, index) => (
+            <ItemComAcoes
+              key={item.cnpj}
+              item={item}
+              categoria="Fornecedor"
+              onEditar={() => console.log("Editar fornecedor")}
+              onExcluir={() =>
+                confirmarRemocao("Fornecedor", item, () => excluirFornecedor(item.cnpj))
+              }
+              onDetalhes={() => console.log("Detalhes fornecedor")}
+            />
+          ))]}
+        </ScrollView>
+        <ContatoRodapeCopyRight />
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }

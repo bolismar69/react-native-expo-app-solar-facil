@@ -8,8 +8,10 @@ import {
 } from "react-native";
 import { useAppTheme } from "@/context/AppThemeContext";
 import { FormCadastroAssociado } from "@/components/forms/FormCadastroAssociado";
+import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
 
 export default function AssociadoCadastroScreen() {
+  console.log("AssociadoCadastroScreen - Renderizando tela de cadastro de associado");
   const { theme } = useAppTheme();
 
   const handleSubmit = (data: any) => {
@@ -35,6 +37,7 @@ export default function AssociadoCadastroScreen() {
             <FormCadastroAssociado onSubmit={handleSubmit} />
           </View>
         </ScrollView>
+        <ContatoRodapeCopyRight />
       </SafeAreaView>
     </KeyboardAvoidingView>
   );

@@ -32,9 +32,10 @@ npm -v
    ```
 
 4. Para executar com simulaodor de celular tem que criar a variavel de ambiente
-export ANDROID_HOME=/home/bolismar/Android/Sdk
-
-
+   ```bash
+   export ANDROID_HOME=/home/bolismar/Android/Sdk
+   rm -rf .expo .expo-shared && npx expo start --clear
+   ```
 
 In the output, you'll find options to open the app in a
 
