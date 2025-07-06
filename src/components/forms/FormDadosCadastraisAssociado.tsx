@@ -11,6 +11,7 @@ import { fetchConsumoMedioOptions } from "@/services/serviceConsumoMedio";
 import { isValidCPF } from "@/utils/validators/validatorCPF";
 import { isValidCNPJ } from "@/utils/validators/validatorCNPJ";
 import { brazilianStates } from "@/constants/states";
+import { useAuth } from "@/context/AuthContext";
 
 interface FormCadastroDadosCadastraisAssociadoProps {
   associado: AssociadoType;
@@ -22,6 +23,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
   onSubmit,
 }) => {
   const [mensagem, setMensagem] = useState<string | null>(null);
+  const { updatelogin } = useAuth();
 
   // Carrega as opções de planos, concessionárias e consumo médio
   const [planOptions, setPlanOptions] = useState<{ label: string; value: number }[]>([]);
@@ -67,7 +69,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       editable: false,
       name: "status",
       label: "Status",
-      type: "text",
+      type: "select",
       placeholder: "Status do associado",
       options: [
         { label: "Em cadastro", value: "Em cadastro" },
@@ -126,7 +128,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       defaultValue: associado.tipoAssociado,
       name: "tipoAssociado",
       label: "Tipo Associado",
-      type: "text",
+      type: "select",
       editable: false,
       options: [
         { label: "Fornecedor", value: "Fornecedor" },
@@ -247,7 +249,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       editable: true,
       name: "estado",
       label: "Estado",
-      placeholder: "SP",
+      placeholder: "São Paulo",
       type: "select",
       required: true,
       keyboardType: "default",
@@ -425,9 +427,13 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     };
 
     try {
+      console.log("FormCadastroDadosCadastraisAssociado - Vai chamar o serviço de atualização:", dadosAtualizados);
       await atualizarAssociado(dadosAtualizados);
       console.log("FormCadastroDadosCadastraisAssociado - Dados atualizados com sucesso.", dadosAtualizados);
       setMensagem("Dados atualizados com sucesso!");
+
+      updatelogin(dadosAtualizados); // Atualiza o associado no contexto de autenticação
+
       if (onSubmit) onSubmit(dadosAtualizados);
     } catch (error) {
       console.error("FormCadastroDadosCadastraisAssociado - Erro ao atualizar os dados.", error);

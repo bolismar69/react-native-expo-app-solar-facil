@@ -207,6 +207,12 @@ npm install react-native-tab-view react-native-pager-view
 npm install @react-native-picker/picker
 npm install @react-native-community/datetimepicker
 
+-- PARA BANCO DE DADOS
+=> FileSystem from "expo-file-system";
+=> AsyncStorage from "@react-native-async-storage/async-storage";
+npx expo install expo-sqlite
+
+
 # TODO - PARA WEB
 - Criar uma versão web-only sem moti, com fallback para animações simples.
 - Incluir Platform.select() para adaptar animações ou renderizações.
@@ -269,3 +275,6 @@ https://github.com/react-native-picker/picker
 https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/advanced/search
 
 
+3. avaliar o uso de SQLite
+https://www.youtube.com/watch?v=BJEACwKXWf8
+https://www.sqlite.org/

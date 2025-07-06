@@ -5,6 +5,7 @@ type AuthContextType = {
   isLoggedIn: boolean;
   login: (_userID: string, _userName: string, _associado?: AssociadoType) => void;
   logout: () => void;
+  updatelogin: (_associado: AssociadoType) => void;
   userID: string | null;
   userName?: string | null;
   associado?: AssociadoType; // Placeholder for AssociadoType
@@ -37,8 +38,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setAssociado(undefined); // Reset associado on logout
   }
 
+  // atualizado informações do associado
+  const updatelogin = (
+    _associado: AssociadoType
+  ) => {
+    console.log("Atualizando associado:", _associado);
+    // Aqui você pode implementar a lógica para atualizar o associado no backend
+    // Por exemplo, fazer uma chamada API para atualizar os dados do associado
+    setAssociado(_associado);
+  };
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, userID, userName, associado }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, userID, userName, associado, updatelogin }}>
       {children}
     </AuthContext.Provider>
   );

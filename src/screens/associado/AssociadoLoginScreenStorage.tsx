@@ -3,16 +3,15 @@ import { View, Text, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoiding
 import React, { useState } from "react";
 import { useAppTheme } from "@/context/AppThemeContext";
 import { useAuth } from "@/context/AuthContext";
+import { buscarAssociadoPorCpfCnpjSenha } from "@/services/storage/serviceAssociado";
+import { AssociadoType } from "@/types/AssociadoType";
 import { Ionicons } from "@expo/vector-icons";
 import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
-import { useAssociadosCopilot } from "@/services/database/useAssociadosCopilot";
 
-export default function AssociadoLoginScreen() {
+export default function AssociadoLoginScreenStorage() {
   const { theme } = useAppTheme();
   const { login, logout, isLoggedIn, associado } = useAuth();
   const router = useRouter();
-
-  const useAssociados = useAssociadosCopilot(); // Call the hook here
 
   const [identificador, setIdentificador] = useState("");
   const [senha, setSenha] = useState("");
@@ -25,12 +24,12 @@ export default function AssociadoLoginScreen() {
     setLoading(true);
 
     try {
-      // buscar o associado pelo CPF/CNPJ e senha
-      const resultado = await (await useAssociados).searchByCpfCnpjSenha(identificador, senha);
+      const resultado: AssociadoType[] = await buscarAssociadoPorCpfCnpjSenha(identificador, senha);
 
-      if (resultado && resultado.length > 0) {
+      if (resultado.length > 0) {
+        const associado = resultado[0];
         console.log("LOGIN - Associado encontrado:", associado);
-        login(resultado[0].id, resultado[0].nome, resultado[0]); // associado vem da resposta do serviço
+        login(associado.id, associado.nome, associado); // associado vem da resposta do serviço
         router.push({
           pathname: "/cadastro",
         });

@@ -2,22 +2,19 @@ import React, { useState } from "react";
 import { FormSection } from "@/components/forms/FormSection";
 import { AssociadoType } from "@/types/AssociadoType";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
-// import { salvarAssociado } from "@/services/storage/serviceAssociado";
+import { salvarAssociado } from "@/services/storage/serviceAssociado";
 import { isValidCPF } from "@/utils/validators/validatorCPF";
 import { isValidCNPJ } from "@/utils/validators/validatorCNPJ";
 import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAssociadosCopilot } from "@/services/database/useAssociadosCopilot"
 
 interface FormCadastroAssociadoProps {
   onSubmit: (data: any) => void; // Define the onSubmit prop
 }
 
-export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) {
+export function FormCadastroAssociadoStorage({ onSubmit }: FormCadastroAssociadoProps) {
   const router = useRouter();
-
-  const useAssociados = useAssociadosCopilot(); // Call the hook here
 
   const [mensagem, setMensagem] = useState<{
     tipo: "success" | "error";
@@ -145,15 +142,12 @@ export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) 
   const handleSubmit = async (data: AssociadoType) => {
     try {
       // cria um id único para o associado
-      // data.id = `${Date.now()}`;
+      data.id = `${Date.now()}`;
       data.dataCadastro = new Date().toISOString();
       data.dataAtualizacao = new Date().toISOString();
       data.cpf_cnpj = data.cpf_cnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
 
-      (await useAssociados).insertRecord(data); // Salva o associado no banco de dados
-
-      const result = await (await useAssociados).insertRecord(data); // Salva o associado no banco de dados
-      data.id = result.rowID.toString(); // <== pega o id gerado pelo banco de dados
+      await salvarAssociado(data);
       setDadosAssociado(data); // <== salva para usar na navegação
       setMensagem({
         tipo: "success",

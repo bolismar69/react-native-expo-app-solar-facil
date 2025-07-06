@@ -10,7 +10,6 @@ import { listarAssociados, excluirAssociado } from "@/services/storage/serviceAs
 import { useRouter } from "expo-router";
 import { limparArmazenamento, clearStorageDocumentDirectory } from "@/services/storage/storageUtils";
 import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
-import { useAssociadosCopilot } from "@/services/database/useAssociadosCopilot";
 
 type Categoria = "Associado" | "Beneficiado" | "Fornecedor";
 
@@ -28,9 +27,8 @@ const ItemComAcoes = ({ item, categoria, onEditar, onExcluir, onDetalhes }: Item
   return (
     <View style={[theme.card, { marginBottom: 12 }]}>
       <Text style={[theme.subtitle]}>
-        [{categoria}] {item.id}.{item.nome}
+        [{categoria}] {item.nome}
       </Text>
-      <Text style={theme.text}>CPF/CNPJJ: {item.cpf_cnpj}</Text>
       <Text style={theme.text}>Email: {item.email}</Text>
       <Text style={theme.text}>Telefone: {item.telefone}</Text>
       <View style={{ flexDirection: "row", gap: 12, marginTop: 8 }}>
@@ -48,12 +46,10 @@ const ItemComAcoes = ({ item, categoria, onEditar, onExcluir, onDetalhes }: Item
   );
 };
 
-export default function AssociadoListaTodosScreen() {
+export default function AssociadoListaTodosScreenStorage() {
   console.log("AssociadoListaTodosScreen");
   const { theme } = useAppTheme();
   const router = useRouter();
-
-  const useAssociados = useAssociadosCopilot(); // Call the hook here
 
   const [associados, setAssociados] = useState<AssociadoType[]>([]);
   // const [beneficiados, setBeneficiados] = useState<any[]>([]);
@@ -61,12 +57,7 @@ export default function AssociadoListaTodosScreen() {
 
   const carregarDados = async () => {
     console.log("Iniciando o processo de leitura de dados...");
-
-    const associadosList = await (await useAssociados).searchAll();
-    console.log("Associados carregados:", associadosList);
-
-    setAssociados(associadosList ?? []);
-    // setAssociados(await listarAssociados());
+    setAssociados(await listarAssociados());
     // setBeneficiados(await listarBeneficiados());
     // setFornecedores(await listarFornecedores());
   };
