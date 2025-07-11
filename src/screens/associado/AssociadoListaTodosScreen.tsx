@@ -4,7 +4,7 @@ import { View, Text, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, 
 import { useAppTheme } from "@/context/AppThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { AssociadoType } from "@/types/AssociadoType";
-import { listarAssociados, excluirAssociado } from "@/services/storage/serviceAssociado";
+// import { listarAssociados, excluirAssociado } from "@/services/storage/serviceAssociado";
 // import { listarBeneficiados, excluirBeneficiado } from "@/services/storage/serviceBeneficiado";
 // import { listarFornecedores, excluirFornecedor } from "@/services/storage/serviceFornecedor";
 import { useRouter } from "expo-router";
@@ -27,8 +27,8 @@ const ItemComAcoes = ({ item, categoria, onEditar, onExcluir, onDetalhes }: Item
 
   return (
     <View style={[theme.card, { marginBottom: 12 }]}>
-      <Text style={[theme.subtitle]}>
-        [{categoria}] {item.id}.{item.nome}
+      <Text style={[theme.subtitle, { textAlign: "left" }]}>
+        {item.id} - {item.nome}
       </Text>
       <Text style={theme.text}>CPF/CNPJJ: {item.cpf_cnpj}</Text>
       <Text style={theme.text}>Email: {item.email}</Text>
@@ -78,7 +78,7 @@ export default function AssociadoListaTodosScreen() {
   const confirmarRemocao = (
     categoria: Categoria,
     item: any,
-    remover: () => Promise<void>
+    remover: () => Promise<void> | null
   ) => {
     Alert.alert(
       `Excluir ${categoria}`,
@@ -159,7 +159,7 @@ export default function AssociadoListaTodosScreen() {
               categoria="Associado"
               onEditar={() => console.log("Editar associado")}
               onExcluir={() =>
-                confirmarRemocao("Associado", item, () => excluirAssociado(item))
+                confirmarRemocao("Associado", item, async () => Promise.resolve())
               }
               onDetalhes={() =>
                 router.push({

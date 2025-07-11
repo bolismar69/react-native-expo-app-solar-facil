@@ -1,5 +1,5 @@
 {
-  "name": "react-native-expo-app-solar-facil",
+  "name": "solar-facil",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -58,7 +58,9 @@
     "tailwindcss": "^3.4.17",
     "victory-native": "^41.17.3",
     "yup": "^1.6.1",
-    "expo-sqlite": "~15.2.13"
+    "expo-sqlite": "~15.2.13",
+    "expo-dev-client": "~5.2.4",
+    "expo-updates": "~0.28.17"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

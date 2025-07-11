@@ -57,6 +57,32 @@ export const lightTheme: AppThemeStyles = {
     elevation: 2, // Mantido para compatibilidade com Android
     marginBottom: 16,
   },
+  cardContent: {
+    backgroundColor: "#ffffff",
+    padding: 16,
+    borderRadius: 12,
+    marginVertical: 8,
+    shadowColor: "#000", // Cor da sombra
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 4,
+    color: "#333333",
+  },
+  cardHighlight: {
+    fontWeight: "700",
+    fontSize: 14,
+  },
+  statusBackground: {
+    pago: "#e0f7e9",
+    atrasado: "#fbe9e7",
+    pendente: "#fffde7"
+  },
 
   imagePreview: {
     width: "100%",

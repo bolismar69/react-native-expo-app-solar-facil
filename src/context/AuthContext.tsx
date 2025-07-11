@@ -3,10 +3,10 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type AuthContextType = {
   isLoggedIn: boolean;
-  login: (_userID: string, _userName: string, _associado?: AssociadoType) => void;
+  login: (_userID: number, _userName: string, _associado?: AssociadoType) => void;
   logout: () => void;
   updatelogin: (_associado: AssociadoType) => void;
-  userID: string | null;
+  userID: number | null;
   userName?: string | null;
   associado?: AssociadoType; // Placeholder for AssociadoType
 };
@@ -15,18 +15,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userID, setUserID] = useState<string | null>(null);
+  const [userID, setUserID] = useState<number | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [associado, setAssociado] = useState<AssociadoType>(); // Placeholder for AssociadoType
 
-  const login = (_userID: string,
+  const login = (_userID: number,
     _userName?: string,
     _associado?: AssociadoType
   ) => {
     console.log("login");
     setIsLoggedIn(true);
     setUserID(_userID || null);
-    setUserName(_userName || _userID || null);
+    setUserName(_userName || _userID.toString() || null);
     setAssociado(_associado);
   };
 

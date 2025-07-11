@@ -1,20 +1,19 @@
 export type MovimentacaoMensalType = {
-  id: string; // UUID ou identificador único
-  associadoId: string; // Referência ao associado beneficiado
-  dataReferencia: string; // Mês/Ano no formato YYYY-MM (ex: 2025-07)
-
-  energiaRecebidaKwh: number; // Quantidade de energia recebida no mês (kWh)
-  valorEnergiaRecebida: number; // Valor total da energia em R$
-
-  tarifaUnitariaKwh: number; // Tarifa aplicada por kWh
-
-  valorCobrado: number; // Valor cobrado ao beneficiado
-  dataVencimento: string; // Data de vencimento (formato ISO)
-  dataPagamento?: string; // Data de pagamento (se houver)
-
-  statusPagamento: "pendente" | "pago" | "atrasado"; // Status atual do pagamento
-
-  observacoes?: string; // Observações adicionais, se necessário
-  criadoEm: string; // Data de criação do registro
-  atualizadoEm?: string; // Última atualização
+  id: number; // Chave primária
+  dataCadastro: string; // Data de cadastro no formato ISO
+  dataAtualizacao: string; // Data de atualização no formato ISO
+  associadoId: number; // ID do associado relacionado
+  mes: number; // Mês da movimentação (1-12)
+  ano: number; // Ano da movimentação
+  valorTotal: number; // Valor total da movimentação
+  dataVencimento: string; // Data de vencimento no formato ISO
+  dataPagamento: string | null; // Data de pagamento no formato ISO ou null
+  statusPagamento: string; // Status do pagamento ("Pago" ou "Pendente")
+  observacoes: string; // Observações sobre a movimentação
+  energiaRecebidaKwh: number; // Energia recebida em kWh
+  valorEnergiaRecebida: number; // Valor da energia recebida
+  tarifaUnitariaKwh: number; // Tarifa unitária por kWh
+  valorCobrado: number; // Valor cobrado na movimentação
+  valorEconomizado: number; // Valor economizado na movimentação
+  percentualEconomizado: number; // Percentual economizado na movimentação
 };

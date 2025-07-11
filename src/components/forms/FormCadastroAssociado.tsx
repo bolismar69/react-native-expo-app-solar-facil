@@ -109,7 +109,7 @@ export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) 
   ];
 
   const initialValues: AssociadoType = {
-    id: "",
+    id: 0,
     tipoPessoa: "Pessoa Física",
     cpf_cnpj: "",
     nome: "",
@@ -153,7 +153,7 @@ export function FormCadastroAssociado({ onSubmit }: FormCadastroAssociadoProps) 
       (await useAssociados).insertRecord(data); // Salva o associado no banco de dados
 
       const result = await (await useAssociados).insertRecord(data); // Salva o associado no banco de dados
-      data.id = result.rowID.toString(); // <== pega o id gerado pelo banco de dados
+      data.id = result.rowID; // <== pega o id gerado pelo banco de dados
       setDadosAssociado(data); // <== salva para usar na navegação
       setMensagem({
         tipo: "success",

@@ -74,7 +74,7 @@ export function CardPlan({ plan }: CardPlanProps) {
 
               <TouchableOpacity
                 style={[styles.button, { backgroundColor: theme.button.backgroundColor }]}
-                onPress={() => router.push("/associado")}
+                onPress={() => router.push("/login")}
               >
                 <Text style={[theme.buttonText, { fontWeight: "600" }]}>Assinar</Text>
               </TouchableOpacity>
@@ -107,7 +107,7 @@ export function CardPlan({ plan }: CardPlanProps) {
 
               <TouchableOpacity
                 style={[styles.button, { backgroundColor: theme.button.backgroundColor }, { marginTop: 170 }]}
-                onPress={() => router.push("/associado")}
+                onPress={() => router.push("/login")}
               >
                 <Text style={[theme.buttonText, { fontWeight: "600" }]}>Assinar</Text>
               </TouchableOpacity>

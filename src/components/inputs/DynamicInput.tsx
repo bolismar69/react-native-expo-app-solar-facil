@@ -11,7 +11,7 @@ interface DynamicInputProps {
   type: string;
   label?: string;
   placeholder?: string;
-  value?: string | number | boolean | Date;
+  value?: string | number | boolean | Date | null | undefined;
   onChange?: (value: any) => void;
   options?: { label: string; value: string }[];
   error?: string;
@@ -32,6 +32,10 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
   // Renderiza um componente específico com base no tipo
   switch (type) {
     case "date":
+      // Garante que value seja um objeto Date ou undefined
+      const dateValue = value ? new Date(value as string | number | Date) : "";
+      console.log("DynamicInput - label:", label, " - value:", value, " - dateValue:", dateValue);
+
       return (
         <InputDate
           label={label || ""}
@@ -104,6 +108,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
     default:
       // Default para InputText
       return (
+        console.log("DynamicInput - InputText - Default para InputText { label, value } - ", { label, value }),
         <InputText
           label={label}
           placeholder={placeholder}

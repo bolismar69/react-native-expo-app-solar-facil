@@ -1,5 +1,5 @@
 import { DynamicInput } from "@/components/inputs/DynamicInput";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Controller, useForm, DefaultValues, Path } from "react-hook-form";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
 import { useAppTheme } from "@/context/AppThemeContext";
@@ -69,7 +69,8 @@ export function FormSection<T extends Record<string, any>>({
               type={field.type}
               label={field.label}
               placeholder={field.placeholder}
-              value={value}
+              // value={value}
+              value={field.defaultValue || value}
               onChange={onChange}
               options={field.options}
               error={errors?.[field.name as keyof T]?.message as string}

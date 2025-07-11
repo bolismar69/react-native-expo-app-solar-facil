@@ -1,9 +1,10 @@
-import { router, Tabs } from "expo-router";
+// /src/app/_layout.tsx
+import { Tabs } from "expo-router";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { Ionicons, FontAwesome, MaterialCommunityIcons, Entypo, SimpleLineIcons, MaterialIcons, } from "@expo/vector-icons";
+import { Ionicons, SimpleLineIcons, MaterialIcons, } from "@expo/vector-icons";
 import { AppThemeProvider } from "@/context/AppThemeContext";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -12,7 +13,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 // import { FaHouseDamage } from "react-icons/fa";
 // import { LiaHouseDamageSolid } from "react-icons/lia";
 import { useColorScheme } from "react-native";
-
+import { DatabaseProvider } from "@/context/DatabaseContext";
 
 export default function RootLayout() {
   console.log("RootLayout");
@@ -29,11 +30,39 @@ function AuthProviderWrapper() {
     <AuthProvider>
       <SafeAreaProvider>
         <StatusBar style="auto" />
-        <AuthProtectedSlot />
+        <DatabaseProvider>
+          <AuthProtectedSlot />
+        </DatabaseProvider>
       </SafeAreaProvider>
     </AuthProvider>
   );
 }
+
+// function DatabaseInitializerWrapper() {
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const setup = async () => {
+//       try {
+//         await initializeDatabase(); // ⬅️ Inicializa o banco aqui
+//       } catch (error) {
+//         console.error("Erro ao inicializar banco de dados", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     setup();
+//   }, []);
+
+//   if (loading) {
+//     return (
+//       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//         <ActivityIndicator size="large" />
+//       </View>
+//     );
+//   }
+//   return <AuthProtectedSlot />;
+// }
 
 function AuthProtectedSlot() {
   console.log("AuthProtectedSlot");
@@ -203,7 +232,7 @@ function AuthProtectedSlot() {
           <Tabs.Screen
             name="movimentacao"
             options={{
-              title: "Movimentação",
+              title: "Movimentações Mensais",
               tabBarLabel: "...",
               headerShown: true,
               tabBarIcon: ({ color, size, focused, }) => (

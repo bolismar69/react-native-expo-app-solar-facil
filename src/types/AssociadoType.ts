@@ -1,7 +1,7 @@
 // /src/types/AssociadoType.ts
 export type AssociadoType = {
   // dados basicos
-  id: string;
+  id: number;
   dataCadastro: string;
   dataAtualizacao: string;
   senha: string;
@@ -46,5 +46,4 @@ export type AssociadoType = {
   potenciaInstalada: string;
   disponibilidade: string;
   tipoConexao: string; // Adicionando tipo de conexão
-
 };

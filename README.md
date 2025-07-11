@@ -278,3 +278,141 @@ https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/advance
 3. avaliar o uso de SQLite
 https://www.youtube.com/watch?v=BJEACwKXWf8
 https://www.sqlite.org/
+
+# SUBIR APLICACAO NO EXPO.DEV
+
+1. Crie uma conta na expo.dev, e crie projeto ( importante ter em mãos após criar o proeto, do ID do Projeto no expo.dev)
+
+2. Na pasta do projeto, digitar os comandos, para inicializar nosso projeto para uma compilação de desenvolvimento, vamos entrar no diretório do projeto e executar o seguinte comando para instalar a biblioteca:
+```bash
+npx expo install expo-dev-client
+
+```
+
+3. Inicializar uma compilação de desenvolvimento:
+
+3.1. Precisamos instalar a ferramenta EAS Command Line Interface (CLI) como uma dependência global em nossa máquina local:
+```bash
+npm install -g eas-cli
+
+```
+
+3.2. Faça login ou crie uma conta na Expo:
+```bash
+eas login
+
+```
+
+3.3. Inicializar e vincular o projeto ao EAS. Isso vai criar o arquivo eas.json na pasta raiz do projeto:
+```bash
+eas init
+
+```
+
+```
+Foi criado o projeto:
+✔ Would you like to create a project for @bolismar69/solar-facil? … yes
+✔ Created @bolismar69/solar-facil
+✔ Project successfully linked (ID: eaf32393-0c03-4e40-9005-fd5955794e5a) (modified app.json)
+```
+
+3.4. Abrir o arquivo app.json e verificar se foi criada a sessão "extra":"eas" com o projectId. Se não foi criado, crie conforme padrão abaixo:
+```json
+{
+  "extra": {
+    "eas": {
+      "projectId": "0cd3da2d-xxx-xxx-xxx-xxxxxxxxxx"
+    }
+  }
+}
+```
+
+3.5. Configurar projeto para EAS Build:
+```bash
+eas build:configure
+
+```
+
+```
+Ao executar, este comando:
+1. Solicita a seleção de uma plataforma: Android, iOS ou Todas. Como estamos criando aplicativos para Android e iOS, vamos selecionar Todas.
+2. Cria eas.json na raiz do diretório do nosso projeto com a seguinte configuração:
+```
+
+```json (eas.json)
+{
+  "cli": {
+    "version": ">= 14.2.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
+```
+
+3.6. Compilar e subi a aplicação no expo.dev
+
+3.6.1. Build de Desenvolvimento
+```bash
+eas build --profile development --platform all
+
+```
+
+3.6.2. Build de Preview
+```bash
+eas build --profile preview --platform all
+
+```
+
+3.6.3. Build de Produção
+```bash
+eas build --profil e production --platform all
+
+```
+
+3.7. Subir para Expo.dev
+```
+Após o build ser concluído, o Expo automaticamente sobe o build para o Expo.dev. Você pode acessar o link gerado no terminal para visualizar o build.
+```
+
+3.8. Publicar a Aplicação (Se você deseja publicar a aplicação para que ela esteja disponível no Expo Go, use o comando):
+
+3.8.1. para versões mais antigas do expo-cli:
+```bash
+npx expo publish
+
+```
+
+3.8.2. para versões mais recentes do expo-cli:
+```bash
+eas update --branch development
+ou
+eas update --branch preview
+ou
+eas update --branch production
+ou
+```
+
+Será gerado um URL para ser usado no app Expo-go:
+```
+https://expo.dev/accounts/bolismar69/projects/solar-facil/fingerprints/dcaccc1eb230fa0790905c347db74b0e20de10d2
+```
+
+
+
+
+
+

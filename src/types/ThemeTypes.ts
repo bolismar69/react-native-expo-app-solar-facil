@@ -1,3 +1,4 @@
+// /src/types/ThemeTypes.ts
 import { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
 export interface AppThemeStyles {
@@ -37,6 +38,15 @@ export interface AppThemeStyles {
   buttonText: TextStyle;
 
   card: ViewStyle;
+  cardContent: ViewStyle;
+  cardTitle: TextStyle;
+  cardHighlight: TextStyle;
+  statusBackground: {
+    pago: string;
+    atrasado: string;
+    pendente: string;
+  };
+  
   imagePreview: ImageStyle;
 
   iconContainer: ViewStyle;

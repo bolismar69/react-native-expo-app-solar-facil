@@ -1,3 +1,4 @@
+// /src/screens/associado/AssociadoLoginScreen.tsx
 import { useRouter } from "expo-router";
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import React, { useState } from "react";
@@ -8,8 +9,11 @@ import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
 import { useAssociadosCopilot } from "@/services/database/useAssociadosCopilot";
 
 export default function AssociadoLoginScreen() {
+  console.log("=== INICIO ========================================================================");
+  console.log("AssociadoLoginScreen - Iniciando tela de login...");
+
   const { theme } = useAppTheme();
-  const { login, logout, isLoggedIn, associado } = useAuth();
+  const { login, logout, isLoggedIn } = useAuth();
   const router = useRouter();
 
   const useAssociados = useAssociadosCopilot(); // Call the hook here
@@ -21,6 +25,8 @@ export default function AssociadoLoginScreen() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    console.log("=== INICIO ========================================================================");
+    console.log("AssociadoLoginScreen - LOGIN - Iniciando login...");
     setMensagemErro(null);
     setLoading(true);
 
@@ -29,8 +35,8 @@ export default function AssociadoLoginScreen() {
       const resultado = await (await useAssociados).searchByCpfCnpjSenha(identificador, senha);
 
       if (resultado && resultado.length > 0) {
-        console.log("LOGIN - Associado encontrado:", associado);
-        login(resultado[0].id, resultado[0].nome, resultado[0]); // associado vem da resposta do serviço
+        console.log("AssociadoLoginScreen - LOGIN - Associados encontrados:", resultado.length, "associado => ", resultado[0]);
+        login(resultado[0].id.toString(), resultado[0].nome, resultado[0]); // associado vem da resposta do serviço
         router.push({
           pathname: "/cadastro",
         });
@@ -39,10 +45,11 @@ export default function AssociadoLoginScreen() {
       }
     } catch (error: any) {
       setMensagemErro("Erro ao tentar login. Tente novamente.");
-      console.error("Erro no login:", error);
+      console.error("AssociadoLoginScreen - Erro no login:", error);
     } finally {
       setLoading(false);
     }
+    console.log("=== FIM ========================================================================");
   };
 
   return (

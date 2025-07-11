@@ -16,7 +16,7 @@ export default function AssociadoDadosCadastraisScreen() {
   console.log("AssociadoDadosCadastraisScreen - associado:", associado);
 
   const handleSubmit = (data: any) => {
-    console.log("AssociadoCadastroScreen - Associado cadastrado com sucesso:", data);
+    console.log("AssociadoDadosCadastraisScreen - Associado cadastrado com sucesso:", data);
   };
 
   return (

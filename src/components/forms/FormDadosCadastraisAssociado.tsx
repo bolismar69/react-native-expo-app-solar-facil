@@ -4,7 +4,6 @@ import { FormSection } from "@/components/forms/FormSection";
 import { AssociadoType } from "@/types/AssociadoType";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
 import { validateFormData } from "@/utils/validates/validateFormData";
-import { atualizarAssociado } from "@/services/storage/serviceAssociado";
 import { fetchPlanOptions } from "@/services/servicePlans";
 import { fetchConcessionariasOptions } from "@/services/serviceConcessionarias";
 import { fetchConsumoMedioOptions } from "@/services/serviceConsumoMedio";
@@ -12,6 +11,7 @@ import { isValidCPF } from "@/utils/validators/validatorCPF";
 import { isValidCNPJ } from "@/utils/validators/validatorCNPJ";
 import { brazilianStates } from "@/constants/states";
 import { useAuth } from "@/context/AuthContext";
+import { useAssociadosCopilot } from "@/services/database/useAssociadosCopilot";
 
 interface FormCadastroDadosCadastraisAssociadoProps {
   associado: AssociadoType;
@@ -25,10 +25,14 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
   const [mensagem, setMensagem] = useState<string | null>(null);
   const { updatelogin } = useAuth();
 
+  const useAssociados = useAssociadosCopilot(); // Call the hook here
+
   // Carrega as opções de planos, concessionárias e consumo médio
   const [planOptions, setPlanOptions] = useState<{ label: string; value: number }[]>([]);
   const [concessionariasOptions, setConcessionariasOptions] = useState<{ label: string; value: number }[]>([]);
   const [consumoMedioOptions, setConsumoMedioOptions] = useState<{ label: string; value: number }[]>([]);
+
+  const [erros, setErros] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     fetchPlanOptions().then(setPlanOptions);
@@ -36,18 +40,28 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     fetchConsumoMedioOptions().then(setConsumoMedioOptions);
   }, []);
 
+  console.log("FormCadastroDadosCadastraisAssociado - VAI SETAR OS FIELDS - associado:", associado);
   const fields: FieldDefinitionType<AssociadoType>[] = [
     // campos não editaveis
     {
-      defaultValue: associado.id,
+      // Valor padrão caso associado.id seja undefined ou null
+      defaultValue: associado.id
+        ? associado.id.toString().padStart(15, "0").replace(/(\d{13})(\d{2})$/, "$1-$2")
+        : "00000000000000-00",
       editable: false,
       name: "id",
-      label: "ID",
-      type: "text",
+      label: "id",
+      type: "number",
       placeholder: "ID do associado",
     },
     {
-      defaultValue: associado.dataCadastro,
+      defaultValue: associado.dataCadastro
+        ? new Date(associado.dataCadastro).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        : "", // Valor padrão caso associado.dataCadastro seja undefined ou null
       editable: false,
       name: "dataCadastro",
       label: "Data de Cadastro",
@@ -56,7 +70,14 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       formattedValue: (value) => new Date(value).toLocaleDateString("pt-BR"),
     },
     {
-      defaultValue: associado.dataAtualizacao,
+      // setar a data no formato brasileiro dd/mm/aaaa
+      defaultValue: associado.dataAtualizacao
+        ? new Date(associado.dataAtualizacao).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        : "", // Valor padrão caso associado.dataCadastro seja undefined ou null
       editable: false,
       name: "dataAtualizacao",
       label: "Última Atualização",
@@ -167,8 +188,8 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       type: "text",
       validation: (value) => {
         if (!value) return "Telefone é obrigatório";
-        const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
-        if (!phoneRegex.test(value)) return "Telefone inválido. Formato esperado: (XX) XXXXX-XXXX";
+        const phoneRegex = /^\d{2}\d{5}\d{4}$/;
+        if (!phoneRegex.test(value)) return "Telefone inválido. Numero dever ter 10 ou 11 digitos";
         return null;
       }
     },
@@ -200,8 +221,8 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       keyboardType: "numeric",
       validation: (value) => {
         if (!value) return "CEP é obrigatório";
-        const cepRegex = /^\d{5}-\d{3}$/;
-        if (!cepRegex.test(value)) return "CEP inválido. Formato esperado: 00000-000";
+        const cepRegex = /^\d{5}\d{3}$/;
+        if (!cepRegex.test(value)) return "CEP inválido. Formato esperado: 00000000";
         return null;
       }
     },
@@ -304,7 +325,13 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
 
     // campos específicos de pessoa física
     {
-      defaultValue: associado.dataNascimento,
+      defaultValue: associado.dataNascimento
+        ? new Date(associado.dataNascimento).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        : "", // Valor padrão caso associado.dataCadastro seja undefined ou null
       editable: true,
       name: "dataNascimento",
       label: "Data de Nascimento",
@@ -343,7 +370,13 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       toUpperCase: true,
     },
     {
-      defaultValue: associado.dataAbertura,
+      defaultValue: associado.dataAbertura
+        ? new Date(associado.dataAbertura).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        : "", // Valor padrão caso associado.dataCadastro seja undefined ou null
       editable: true,
       name: "dataAbertura",
       label: "Data de Abertura",
@@ -428,11 +461,18 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
 
     try {
       console.log("FormCadastroDadosCadastraisAssociado - Vai chamar o serviço de atualização:", dadosAtualizados);
-      await atualizarAssociado(dadosAtualizados);
-      console.log("FormCadastroDadosCadastraisAssociado - Dados atualizados com sucesso.", dadosAtualizados);
+
+
+      // await atualizarAssociado(dadosAtualizados);
+      const result = (await useAssociados).updateRecord(dadosAtualizados);
+
+      console.log("FormCadastroDadosCadastraisAssociado - Dados atualizados com sucesso: ", result, "==> ", dadosAtualizados);
       setMensagem("Dados atualizados com sucesso!");
 
       updatelogin(dadosAtualizados); // Atualiza o associado no contexto de autenticação
+
+      // agora precisamos limpar as mensagens de erros de todos os campos
+      setErros({});
 
       if (onSubmit) onSubmit(dadosAtualizados);
     } catch (error) {
@@ -442,7 +482,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
   };
 
   return (
-    <View style={{ gap: 24 }}>
+    <View style={{ gap: 0 }}>
       {mensagem && <Text style={{ color: "blue", marginBottom: 12 }}>{mensagem}</Text>}
       <FormSection
         fields={fields}

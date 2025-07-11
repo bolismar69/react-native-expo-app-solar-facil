@@ -1,10 +1,15 @@
 import { openDatabaseSync, SQLiteDatabase } from "expo-sqlite";
-import { initializeDatabase } from "./initializeDatabase";
+// import { initializeDatabase } from "./initializeDatabase";
 import {AssociadoType} from "../../types/AssociadoType";
+import {getDatabaseConnection, initializeDatabase as InitDB } from "./initializeSQLiteDatabase";
 
 export async function useAssociados() { 
 
-  let database: SQLiteDatabase | undefined;
+  // inicializa o banco de dados
+  await InitDB();
+
+  // pega conexao com o banco de dados
+  let database = await getDatabaseConnection();
 
   async function initialize() {
   try {

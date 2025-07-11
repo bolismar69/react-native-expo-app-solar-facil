@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-expo-app-solar-facil",
-    "slug": "react-native-expo-app-solar-facil",
+    "name": "Solar Facil",
+    "slug": "solar-facil",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/solar-facil-icon.png",
@@ -9,14 +9,19 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.janeves.solarfacil",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/solar-facil-adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.janeves.solarfacil"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +43,19 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "eaf32393-0c03-4e40-9005-fd5955794e5a"
+      }
+    },
+    "owner": "bolismar69",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/eaf32393-0c03-4e40-9005-fd5955794e5a"
     }
   }
 }

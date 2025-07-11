@@ -1,13 +1,10 @@
-// /src/app/home.tsx
+// /src/app/movimentacao.tsx
 import React from "react";
-import {
-  Text,
-} from "react-native";
-// navegação com STACK e Link do expo-router
-// https://expo.github.io/router/docs/intro
+// import MovimentacaoScreen from "@/screens/movimentacao/MovimentacaoScreen";
+import MovimentacaoComCardScreen from "@/screens/movimentacao/MovimentacaoComCardScreen";
 export default function AppMovimentacaoScreen() {
   console.log("AppMovimentacaoScreen");
   return (
-    <Text>Movimentação</Text>
+    <MovimentacaoComCardScreen />
   );
 }

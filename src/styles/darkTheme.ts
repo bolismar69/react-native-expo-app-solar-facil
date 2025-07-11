@@ -55,7 +55,34 @@ export const darkTheme: AppThemeStyles = {
       elevation: 2, // Mantido para compatibilidade com Android
       marginBottom: 16,
   },
-
+  cardContent: {
+    backgroundColor: "#1e1e1e",
+    padding: 16,
+    borderRadius: 12,
+    marginVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 4,
+    color: "#f0f0f0",
+  },
+  cardHighlight: {
+    fontWeight: "700",
+    fontSize: 14,
+    color: "#ffd700", // amarelo-ouro para destaque
+  },
+  statusBackground: {
+    pago: "#144d38",
+    atrasado: "#4b1c1c",
+    pendente: "#4a4a2e"
+  },
+  
   imagePreview: {
     width: "100%",
     height: 200,

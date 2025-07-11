@@ -215,3 +215,78 @@ Existem várias ferramentas e editores de texto que permitem editar arquivos `.m
 - Editores de texto como **Visual Studio Code**, **Sublime Text**, **Atom**, etc.
 - Ferramentas online, como [https://www.pandoc.org/](https://www.pandoc.org/)
 - Ferramentas específicas para criação de documentação, como o **GitHub Docs**
+
+
+## Banco de dados em uso SQLite
+
+1. Instalação:
+```bash
+npx expo install expo-sqlite
+```
+
+2. Tabelas criadas:
+CREATE TABLE IF NOT EXISTS associados (
+  id TEXT PRIMARY KEY NOT NULL,
+  dataCadastro TEXT NOT NULL,
+  dataAtualizacao TEXT NOT NULL,
+  senha TEXT NOT NULL,
+  status TEXT CHECK(status IN ('Em cadastro', 'Ativo', 'Inativo', 'Bloqueado', 'Encerrado')) NOT NULL,
+  tipoAssociado TEXT CHECK(tipoAssociado IN ('Fornecedor', 'Beneficiado', 'Hibrido')) NOT NULL,
+
+  nome TEXT NOT NULL,
+  email TEXT NOT NULL,
+  telefone TEXT NOT NULL,
+  tipoPessoa TEXT CHECK(tipoPessoa IN ('Pessoa Física', 'Pessoa Jurídica')) NOT NULL,
+  cpf_cnpj TEXT UNIQUE NOT NULL,
+
+  cep TEXT NOT NULL,
+  endereco TEXT NOT NULL,
+  numero TEXT NOT NULL,
+  bairro TEXT NOT NULL,
+  cidade TEXT NOT NULL,
+  estado TEXT NOT NULL,
+  complemento TEXT,
+
+  aceitaTermos TEXT CHECK(aceitaTermos IN ('Sim', 'Não')) NOT NULL,
+  observacoes TEXT,
+
+  dataNascimento TEXT,
+  nomeSocial TEXT,
+
+  dataAbertura TEXT,
+  razaoSocial TEXT,
+  nomeFantasia TEXT,
+
+  nomeConcessionaria TEXT,
+  consumoMedio TEXT,
+  planoDesejado TEXT,
+
+  potenciaInstalada TEXT,
+  disponibilidade TEXT,
+  tipoConexao TEXT
+);
+
+CREATE TABLE IF NOT EXISTS movimentacoes (
+  id TEXT PRIMARY KEY NOT NULL,
+  associadoId TEXT,
+  mes INTEGER,
+  ano INTEGER,
+  valorTotal REAL,
+  dataCadastro TEXT
+);
+
+CREATE TABLE IF NOT EXISTS movimentacoes_detalhes (
+  id TEXT PRIMARY KEY NOT NULL,
+  movimentacaoId TEXT,
+  energiaRecebidaKwh REAL,
+  valorEnergiaRecebida REAL,
+  tarifaUnitariaKwh REAL,
+  valorCobrado REAL,
+  dataVencimento TEXT,
+  dataPagamento TEXT,
+  statusPagamento TEXT,
+  observacoes TEXT,
+  criadoEm TEXT,
+  atualizadoEm TEXT
+);
+

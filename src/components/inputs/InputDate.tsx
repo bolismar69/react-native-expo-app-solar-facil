@@ -12,7 +12,7 @@ import { useAppTheme } from "@/context/AppThemeContext";
 
 interface InputDateProps {
   label: string;
-  value: Date;
+  value: Date | undefined;
   onChangeText: (val: Date) => void;
   onBlur?: () => void;
   error?: string;
@@ -29,18 +29,22 @@ export function InputDate({
 }: InputDateProps) {
   const { theme } = useAppTheme();
   const [showPicker, setShowPicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(value); // Estado para armazenar a data selecionada
 
-  const handleDateChange = (event: any, selectedDate?: Date) => {
+  const handleDateChange = (event: any, newDate?: Date) => {
     setShowPicker(false);
-    if (selectedDate) {
-      onChangeText(selectedDate);
+    if (newDate) {
+      setSelectedDate(newDate); // Atualiza o estado local com a data selecionada
+      onChangeText(newDate); // Chama a função de callback para atualizar o estado externo
     }
     onBlur?.();
   };
 
-  const formattedDate = value
-    ? value.toLocaleDateString("pt-BR")
-    : "Selecionar data";
+  const formattedDate =
+    selectedDate instanceof Date
+      ? selectedDate.toLocaleDateString("pt-BR")
+      : "Selecionar data";
+  console.log("InputDate - Selected Date:", formattedDate); // Log para verificar a data selecionada
 
   return (
     <View style={{ marginBottom: 16 }}>
@@ -77,7 +81,7 @@ export function InputDate({
               }}
             >
               <DateTimePicker
-                value={value || new Date()}
+                value={selectedDate instanceof Date ? selectedDate : new Date()} // Usa o estado local
                 mode="date"
                 display="spinner"
                 onChange={handleDateChange}
@@ -89,11 +93,10 @@ export function InputDate({
       ) : (
         showPicker && (
           <DateTimePicker
-            value={value || new Date()}
+            value={selectedDate instanceof Date ? selectedDate : new Date()} // Usa o estado local
             mode="date"
             display="default"
             onChange={handleDateChange}
-            // bloquear edição
             disabled={!editable}
           />
         )
