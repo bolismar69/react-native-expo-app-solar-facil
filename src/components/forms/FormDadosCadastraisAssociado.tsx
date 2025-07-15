@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "expo-router";
 import { View, Text } from "react-native";
+
 import { FormSection } from "@/components/forms/FormSection";
 import { AssociadoType } from "@/types/AssociadoType";
 import { FieldDefinitionType } from "@/types/FieldDefinitionType";
@@ -16,12 +18,15 @@ import { useAssociadosCopilot } from "@/services/database/useAssociadosCopilot";
 interface FormCadastroDadosCadastraisAssociadoProps {
   associado: AssociadoType;
   onSubmit?: (data: AssociadoType) => void;
+  editable?: boolean;
 }
 
 export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisAssociadoProps> = ({
   associado,
   onSubmit,
+  editable
 }) => {
+  const router = useRouter();
   const [mensagem, setMensagem] = useState<string | null>(null);
   const { updatelogin } = useAuth();
 
@@ -41,6 +46,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
   }, []);
 
   console.log("FormCadastroDadosCadastraisAssociado - VAI SETAR OS FIELDS - associado:", associado);
+  const editableFields = editable !== undefined ? editable : true; // Default to true if not provided
   const fields: FieldDefinitionType<AssociadoType>[] = [
     // campos não editaveis
     {
@@ -170,7 +176,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     // campos editaveis 
     {
       defaultValue: associado.nome,
-      editable: true,
+      editable: editableFields,
       name: "nome",
       label: "Nome completo ou Razão Social",
       placeholder: "João Silva",
@@ -180,7 +186,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.telefone,
-      editable: true,
+      editable: editableFields,
       required: true,
       name: "telefone",
       label: "Telefone",
@@ -195,7 +201,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.email,
-      editable: true,
+      editable: editableFields,
       name: "email",
       label: "E-mail",
       placeholder: "exemplo@email.com",
@@ -212,7 +218,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     // Campos de endereço
     {
       defaultValue: associado.cep,
-      editable: true,
+      editable: editableFields,
       name: "cep",
       label: "CEP",
       placeholder: "00000-000",
@@ -228,7 +234,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.endereco,
-      editable: true,
+      editable: editableFields,
       name: "endereco",
       label: "Endereço",
       placeholder: "Rua Exemplo, 123",
@@ -238,7 +244,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.numero,
-      editable: true,
+      editable: editableFields,
       name: "numero",
       label: "Número",
       placeholder: "123",
@@ -247,7 +253,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.bairro,
-      editable: true,
+      editable: editableFields,
       name: "bairro",
       label: "Bairro",
       placeholder: "Informe o bairro",
@@ -257,7 +263,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.cidade,
-      editable: true,
+      editable: editableFields,
       name: "cidade",
       label: "Cidade",
       placeholder: "Informe a cidade",
@@ -267,7 +273,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.estado,
-      editable: true,
+      editable: editableFields,
       name: "estado",
       label: "Estado",
       placeholder: "São Paulo",
@@ -278,7 +284,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.complemento,
-      editable: true,
+      editable: editableFields,
       name: "complemento",
       label: "Complemento (opcional)",
       placeholder: "Apto 101, Bloco B, etc.",
@@ -289,7 +295,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     // Campos adicionais
     {
       defaultValue: associado.tipoConexao,
-      editable: true,
+      editable: editableFields,
       name: "tipoConexao",
       label: "Tipo de Conexão",
       placeholder: "Selecione o tipo",
@@ -303,7 +309,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.aceitaTermos || "Não", // Valor padrão
-      editable: true,
+      editable: editableFields,
       name: "aceitaTermos",
       label: "Aceita os termos e condições?",
       type: "select",
@@ -316,7 +322,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.observacoes,
-      editable: true,
+      editable: editableFields,
       name: "observacoes",
       label: "Observações (opcional)",
       placeholder: "",
@@ -332,7 +338,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
           year: "numeric",
         })
         : "", // Valor padrão caso associado.dataCadastro seja undefined ou null
-      editable: true,
+      editable: editableFields,
       name: "dataNascimento",
       label: "Data de Nascimento",
       placeholder: "DD/MM/AAAA",
@@ -342,7 +348,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.nomeSocial,
-      editable: true,
+      editable: editableFields,
       name: "nomeSocial",
       label: "Nome Social (opcional)",
       placeholder: "Nome social do associado",
@@ -353,7 +359,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     // campos específicos de pessoa jurídica
     {
       defaultValue: associado.razaoSocial,
-      editable: true,
+      editable: editableFields,
       name: "razaoSocial",
       label: "Razão Social",
       placeholder: "Razão social da empresa",
@@ -362,7 +368,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.nomeFantasia,
-      editable: true,
+      editable: editableFields,
       name: "nomeFantasia",
       label: "Nome Fantasia (opcional)",
       placeholder: "Nome fantasia da empresa",
@@ -377,7 +383,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
           year: "numeric",
         })
         : "", // Valor padrão caso associado.dataCadastro seja undefined ou null
-      editable: true,
+      editable: editableFields,
       name: "dataAbertura",
       label: "Data de Abertura",
       placeholder: "DD/MM/AAAA",
@@ -388,6 +394,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
 
     // dados especificos de beneficiado
     {
+      editable: editableFields,
       name: "nomeConcessionaria",
       label: "Informe a concessionaria",
       type: "select",
@@ -399,6 +406,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       })),
     },
     {
+      editable: editableFields,
       name: "consumoMedio",
       label: "Consumo médio mensal (kWh)",
       type: "select",
@@ -410,6 +418,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       })),
     },
     {
+      editable: editableFields,
       name: "planoDesejado",
       label: "Plano desejado",
       placeholder: "Selecione um plano",
@@ -424,7 +433,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     // campos específicos de fornecedor
     {
       defaultValue: associado.potenciaInstalada,
-      editable: true,
+      editable: editableFields,
       name: "potenciaInstalada",  // Campo de potência instalada
       label: "Potência Instalada (kWh)",
       placeholder: "Potência instalada",  // Placeholder para potência instalada
@@ -434,7 +443,7 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     },
     {
       defaultValue: associado.disponibilidade,
-      editable: true,
+      editable: editableFields,
       name: "disponibilidade",
       label: "Disponibilidade de Energia (kWh)",
       placeholder: "Ex: 150",
@@ -462,9 +471,13 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
     try {
       console.log("FormCadastroDadosCadastraisAssociado - Vai chamar o serviço de atualização:", dadosAtualizados);
 
-
       // await atualizarAssociado(dadosAtualizados);
       const result = (await useAssociados).updateRecord(dadosAtualizados);
+      if ((await result).success === false) {
+        console.error("FormCadastroDadosCadastraisAssociado - Erro ao atualizar os dados:", (await result).error);
+        setMensagem("Erro ao atualizar os dados.");
+        return;
+      }
 
       console.log("FormCadastroDadosCadastraisAssociado - Dados atualizados com sucesso: ", result, "==> ", dadosAtualizados);
       setMensagem("Dados atualizados com sucesso!");
@@ -475,6 +488,14 @@ export const FormDadosCadastraisAssociado: React.FC<FormCadastroDadosCadastraisA
       setErros({});
 
       if (onSubmit) onSubmit(dadosAtualizados);
+      console.log("FormCadastroDadosCadastraisAssociado - Dados enviados com sucesso:", dadosAtualizados);
+
+      // se recebeu o parametro de editable indica que veio no modo de edição
+      if (editable !== undefined && editable === true) {
+        // se veio no modo de edição, então vamos voltar para a tela anterior
+        console.log("FormCadastroDadosCadastraisAssociado - Navegando para a tela anterior");
+        router.back(); // Descomente se estiver usando React Router
+      }
     } catch (error) {
       console.error("FormCadastroDadosCadastraisAssociado - Erro ao atualizar os dados.", error);
       setMensagem("Erro ao atualizar os dados.");

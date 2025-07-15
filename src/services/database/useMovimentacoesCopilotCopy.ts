@@ -1,83 +1,147 @@
-import * as SQLite from "expo-sqlite";
+// /src/services/database/useMovimentacoesCopilot.ts
+import { useDatabase } from "@/context/DatabaseContext";
 import { MovimentacaoMensalType } from "@/types/MovimentacaoMensalType";
-import { initializeDatabaseCopilot } from "./initializeDatabaseCopilot";
+import { DBResponse } from "@/types/DBResponse";
 
-let db: SQLite.SQLiteDatabase | null;
+export function useMovimentacoesCopilotCopy() {
+  const {
+    getDatabaseConnection,
+    isDatabaseConnected,
+    initializeDatabaseConnection,
+    dbInstance,
+  } = useDatabase();
 
-export async function useMovimentacoesCopilotCopy() {
   console.log("=== INICIO ========================================================================");
   console.log("useMovimentacoesCopilot - Iniciando o hook useMovimentacoesCopilot...");
 
-  async function initialize() {
-    console.log("=== INICIO ========================================================================");
-    console.log("useMovimentacoesCopilot - initialize - Inicializando o banco de dados...");
-    try {
-      if (!db) {
-        db = await initializeDatabaseCopilot();
-      }
-    } catch (error) {
-      console.error("useMovimentacoesCopilot - initialize - Erro ao inicializar o banco de dados:", error);
-      throw error;
-    }
+  console.info("useMovimentacoesCopilot - useDatabase() - Conexão com o banco de dados:", {
+    isDatabaseConnected,
+    dbInstance,
+  });
 
-    if (!db) {
-      console.log("=== TERMINO =======================================================================");
-      throw new Error("useMovimentacoesCopilot - initialize - Banco de dados não inicializado.");
+  async function ensureDbConnected() {
+    console.log("useAssociadosCopilot - ensureDbConnected - Verificando conexão com o banco...");
+    if (!isDatabaseConnected) {
+      await initializeDatabaseConnection();
     }
-    console.log("useMovimentacoesCopilot - initialize - Banco de dados inicializado com sucesso.");
-    console.log("=== TERMINO ========================================================================");
+    const db = getDatabaseConnection();
+    if (!db) throw new Error("useAssociadosCopilot - ensureDbConnected - Banco de dados nao conectado");
+    return db;
   }
 
-  async function finalize() {
-    console.log("=== INICIO ========================================================================");
-    console.log("useMovimentacoesCopilot - finalize - Finalizando o hook useMovimentacoesCopilot...");
-    if (db) {
-      try {
-        await db.closeAsync();
-        console.log("useMovimentacoesCopilot - finalize - Banco de dados fechado com sucesso.");
-      } catch (error) {
-        console.error("useMovimentacoesCopilot - finalize - Erro ao fechar o banco de dados:", error);
-        throw error;
-      } finally {
-        db = null;
-        console.log("useMovimentacoesCopilot - finalize - Banco de dados finalizado.");
-      }
-    } else {
-      console.warn("useMovimentacoesCopilot - finalize - Banco de dados já está fechado ou não foi inicializado.");
-    }
-    console.log("=== TERMINO ========================================================================");
+  async function insertMovimentacao(mov: MovimentacaoMensalType): Promise<number> {
+    const db = await ensureDbConnected();
+
+    const result = await db.runAsync(
+      `INSERT INTO movimentacoes (
+        associadoId, mes, ano, valorTotal, dataCadastro, dataAtualizacao,
+        dataVencimento, dataPagamento, statusPagamento, observacoes,
+        energiaRecebidaKwh, valorEnergiaRecebida, tarifaUnitariaKwh,
+        valorCobrado, valorEconomizado, percentualEconomizado
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+      [
+        mov.associadoId,
+        mov.mes,
+        mov.ano,
+        mov.valorTotal,
+        mov.dataCadastro,
+        mov.dataAtualizacao,
+        mov.dataVencimento,
+        mov.dataPagamento,
+        mov.statusPagamento,
+        mov.observacoes,
+        mov.energiaRecebidaKwh,
+        mov.valorEnergiaRecebida,
+        mov.tarifaUnitariaKwh,
+        mov.valorCobrado,
+        mov.valorEconomizado,
+        mov.percentualEconomizado,
+      ]
+    );
+    return result?.lastInsertRowId ?? -1;
   }
 
-  async function listarMovimentacoesMensais(_associadoId: number | null): Promise<MovimentacaoMensalType[] | null> {
-    console.log("=== INICIO ========================================================================");
-    console.log("useMovimentacoesCopilot - listarMovimentacoesMensais - Buscando todas as movimentações mensais...");
-    let movimentacoes: MovimentacaoMensalType[];
-    try {
-      await initialize();
+  async function updateMovimentacao(mov: MovimentacaoMensalType): Promise<number> {
+    const db = await ensureDbConnected();
 
-      let result: any;
-      if(_associadoId){
-        result = await db?.getAllAsync(`SELECT * FROM movimentacoes WHERE associadoId = ? ORDER BY ano, mes;`, [_associadoId]);
-      } else {
-        console.warn("useMovimentacoesCopilot - listarMovimentacoesMensais - Nenhum associadoId fornecido, buscando todas as movimentações.");
-        result = await db?.getAllAsync(`SELECT * FROM movimentacoes ORDER BY ano, mes;`, []);
-      }
+    const result = await db.runAsync(
+      `UPDATE movimentacoes SET
+        mes = ?, ano = ?, valorTotal = ?, dataCadastro = ?, dataAtualizacao = ?,
+        dataVencimento = ?, dataPagamento = ?, statusPagamento = ?, observacoes = ?,
+        energiaRecebidaKwh = ?, valorEnergiaRecebida = ?, tarifaUnitariaKwh = ?,
+        valorCobrado = ?, valorEconomizado = ?, percentualEconomizado = ?
+      WHERE id = ?;`,
+      [
+        mov.mes,
+        mov.ano,
+        mov.valorTotal,
+        mov.dataCadastro,
+        mov.dataAtualizacao,
+        mov.dataVencimento,
+        mov.dataPagamento,
+        mov.statusPagamento,
+        mov.observacoes,
+        mov.energiaRecebidaKwh,
+        mov.valorEnergiaRecebida,
+        mov.tarifaUnitariaKwh,
+        mov.valorCobrado,
+        mov.valorEconomizado,
+        mov.percentualEconomizado,
+        mov.id,
+      ]
+    );
+    return result?.changes ?? -1;
+  }
+
+  async function deleteMovimentacao(id: number): Promise<number> {
+    const db = await ensureDbConnected();
+
+    const result = await db.runAsync(`DELETE FROM movimentacoes WHERE id = ?;`, [id]);
+    return result?.changes ?? -1;
+  }
+
+  async function searchByAssociado(associadoId: number): Promise<MovimentacaoMensalType[]> {
+    const db = await ensureDbConnected();
+
+    const result = await db.getAllAsync(
+      `SELECT * FROM movimentacoes WHERE associadoId = ? ORDER BY ano DESC, mes DESC;`,
+      [associadoId]
+    );
+    return result as MovimentacaoMensalType[];
+  }
+  async function searchByAssociadoId(associadoId: number): Promise<DBResponse<MovimentacaoMensalType[]>> {
+    try {
+      const db = await ensureDbConnected();
+      const result = await db.getAllAsync(
+        `SELECT * FROM movimentacoes WHERE associadoId = ? ORDER BY ano DESC, mes DESC;`,
+        [associadoId]
+      );
+
       if (!result || result.length === 0) {
-        console.warn("useMovimentacoesCopilot - Nenhuma movimentação encontrada.");
-        return [];
+        return { success: true, data: [] };
       }
-      console.log("useMovimentacoesCopilot - listarMovimentacoesMensais - Movimentações encontradas:", result);
-      movimentacoes = result as MovimentacaoMensalType[];
+
+      const movimentacoes = result as MovimentacaoMensalType[];
+      return { success: true, data: movimentacoes };
     } catch (error) {
-      console.error("useMovimentacoesCopilot - listarMovimentacoesMensais - Erro ao buscar movimentações:", error);
-      throw error;
-    } finally {
-      finalize();
+      console.error("useMovimentacoesCopilot - Erro ao buscar movimentações:", error);
+      return { success: false, error: "Erro ao buscar movimentações" };
     }
-    console.log("useMovimentacoesCopilot - listarMovimentacoesMensais - Movimentações encontradas:", movimentacoes);
-    console.log("=== TERMINO ========================================================================");
-    return movimentacoes;
   }
 
-  return { listarMovimentacoesMensais, initialize, finalize };
+  async function searchAll(): Promise<MovimentacaoMensalType[]> {
+    const db = await ensureDbConnected();
+
+    const result = await db.getAllAsync(`SELECT * FROM movimentacoes ORDER BY ano DESC, mes DESC;`);
+    return result as MovimentacaoMensalType[];
+  }
+
+  return {
+    insertMovimentacao,
+    updateMovimentacao,
+    deleteMovimentacao,
+    searchByAssociado,
+    searchByAssociadoId,
+    searchAll,
+  };
 }

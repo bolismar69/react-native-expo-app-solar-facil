@@ -14,13 +14,16 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 // import { LiaHouseDamageSolid } from "react-icons/lia";
 import { useColorScheme } from "react-native";
 import { DatabaseProvider } from "@/context/DatabaseContext";
+import { ReactQueryProvider } from "@/context/ReactQueryProvider";
 
 export default function RootLayout() {
   console.log("RootLayout");
   return (
-    <AppThemeProvider>
-      <AuthProviderWrapper />
-    </AppThemeProvider>
+    <ReactQueryProvider>
+      <AppThemeProvider>
+        <AuthProviderWrapper />
+      </AppThemeProvider>
+    </ReactQueryProvider>
   );
 }
 
@@ -30,7 +33,7 @@ function AuthProviderWrapper() {
     <AuthProvider>
       <SafeAreaProvider>
         <StatusBar style="auto" />
-        <DatabaseProvider>
+        <DatabaseProvider autoInitialize={true} >
           <AuthProtectedSlot />
         </DatabaseProvider>
       </SafeAreaProvider>

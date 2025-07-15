@@ -63,9 +63,14 @@ export default function AssociadoListaTodosScreen() {
     console.log("Iniciando o processo de leitura de dados...");
 
     const associadosList = await (await useAssociados).searchAll();
-    console.log("Associados carregados:", associadosList);
+    if (associadosList.success === false) {
+      console.error("Erro ao carregar associados:", associadosList.error);
+      Alert.alert("Erro", "Não foi possível carregar os associados.");
+      return;
+    }
+    console.log("Associados carregados:", associadosList.data);
 
-    setAssociados(associadosList ?? []);
+    setAssociados(associadosList.data ?? []);
     // setAssociados(await listarAssociados());
     // setBeneficiados(await listarBeneficiados());
     // setFornecedores(await listarFornecedores());

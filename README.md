@@ -142,6 +142,9 @@ npm install react-hook-form yup @hookform/resolvers
 npm install react-navigation react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated
 npm install react-native-svg victory-native
 
+# Para atender a controle de Query e Mutation no acesso a dados
+npm install @tanstack/react-query
+
 # Google Play Store - Geração imagens
 
 Enviar:
@@ -415,4 +418,9 @@ https://expo.dev/accounts/bolismar69/projects/solar-facil/fingerprints/dcaccc1eb
 
 
 
+
+# GERAR ZIP DA APLICACAO
+```bash
+zip -r solar-facil.zip . -x "node_modules/*" "dist/*" ".expo/*"
+```
 

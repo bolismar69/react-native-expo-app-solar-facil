@@ -106,7 +106,7 @@ export function FormCadastroAssociadoStorage({ onSubmit }: FormCadastroAssociado
   ];
 
   const initialValues: AssociadoType = {
-    id: "",
+    id: 0,
     tipoPessoa: "Pessoa Física",
     cpf_cnpj: "",
     nome: "",
@@ -138,14 +138,13 @@ export function FormCadastroAssociadoStorage({ onSubmit }: FormCadastroAssociado
     disponibilidade: "", // Example default value
     tipoConexao: "", // Example default value
   };
-
   const handleSubmit = async (data: AssociadoType) => {
     try {
       // cria um id único para o associado
-      data.id = `${Date.now()}`;
+      data.cpf_cnpj = data.cpf_cnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
+      data.id = parseInt(data.cpf_cnpj, 10);
       data.dataCadastro = new Date().toISOString();
       data.dataAtualizacao = new Date().toISOString();
-      data.cpf_cnpj = data.cpf_cnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
 
       await salvarAssociado(data);
       setDadosAssociado(data); // <== salva para usar na navegação

@@ -33,10 +33,16 @@ export default function AssociadoLoginScreen() {
     try {
       // buscar o associado pelo CPF/CNPJ e senha
       const resultado = await (await useAssociados).searchByCpfCnpjSenha(identificador, senha);
+      if (resultado.success === false) {
+        console.error("AssociadoLoginScreen - LOGIN - Erro ao buscar associado:", resultado.error);
+        setMensagemErro("Erro ao buscar associado. Tente novamente.");
+        return;
+      }
 
-      if (resultado && resultado.length > 0) {
-        console.log("AssociadoLoginScreen - LOGIN - Associados encontrados:", resultado.length, "associado => ", resultado[0]);
-        login(resultado[0].id.toString(), resultado[0].nome, resultado[0]); // associado vem da resposta do serviço
+      if (resultado && resultado.data && resultado.data.length > 0) {
+        console.log("AssociadoLoginScreen - LOGIN - Associados encontrados:", resultado.data.length, "associado => ", resultado.data[0]);
+
+        login(resultado.data[0].id, resultado.data[0].nome, resultado.data[0]); // associado vem da resposta do serviço
         router.push({
           pathname: "/cadastro",
         });

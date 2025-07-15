@@ -6,6 +6,6 @@ export default function AppCadastroScreen() {
   return (
     console.log("AppFaqScreen"),
     // <AssociadoCadastroScreen />
-    <AssociadoDadosCadastraisScreen />
+    <AssociadoDadosCadastraisScreen itemAssociado={null} editable={true} />
   );
 }

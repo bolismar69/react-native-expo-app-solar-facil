@@ -1,5 +1,6 @@
 // src/screens/associado/AssociadoListaTodosScreen.tsx
 import React, { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 import { View, Text, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
 import { useAppTheme } from "@/context/AppThemeContext";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,7 +8,6 @@ import { AssociadoType } from "@/types/AssociadoType";
 import { listarAssociados, excluirAssociado } from "@/services/storage/serviceAssociado";
 // import { listarBeneficiados, excluirBeneficiado } from "@/services/storage/serviceBeneficiado";
 // import { listarFornecedores, excluirFornecedor } from "@/services/storage/serviceFornecedor";
-import { useRouter } from "expo-router";
 import { limparArmazenamento, clearStorageDocumentDirectory } from "@/services/storage/storageUtils";
 import { ContatoRodapeCopyRight } from "@/components/ContatoRodapeCopyRight";
 

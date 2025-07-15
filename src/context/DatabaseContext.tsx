@@ -1,5 +1,5 @@
 // src/context/DatabaseContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import * as SQLite from "expo-sqlite";
 import { initializeDatabase } from "./../services/database/initializeSQLiteDatabase";
 
@@ -14,8 +14,14 @@ interface DatabaseContextType {
 
 const DatabaseContext = createContext<DatabaseContextType | undefined>(undefined);
 
+// Props para o DatabaseProvider
+interface DatabaseProviderProps {
+  children: ReactNode;
+  autoInitialize?: boolean; // Define se a conexão deve ser inicializada automaticamente
+}
+
 // Provider
-export const DatabaseProvider = ({ children }: { children: ReactNode }) => {
+export const DatabaseProvider = ({ children, autoInitialize = false }: DatabaseProviderProps) => {
   console.log("📦 DatabaseContext - DatabaseProvider - iniciado.");
   const [isDatabaseConnected, setIsDatabaseConnected] = useState(false);
   const [dbInstance, setDbInstance] = useState<SQLite.SQLiteDatabase | null>(null);
@@ -31,6 +37,8 @@ export const DatabaseProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error("❌ DatabaseContext - initializeDatabaseConnection - Erro ao inicializar o banco:", error);
       }
+    } else {
+      console.log("🔗 DatabaseContext - initializeDatabaseConnection - Conexão já está ativa.");
     }
   };
 
@@ -52,6 +60,14 @@ export const DatabaseProvider = ({ children }: { children: ReactNode }) => {
     console.log("🔗 DatabaseContext - getDatabaseConnection - Obtendo conexão com o banco SQLite...");
     return dbInstance;
   };
+
+  // Inicializa automaticamente a conexão se autoInitialize for true
+  useEffect(() => {
+    if (autoInitialize) {
+      console.log("📦 DatabaseContext - autoInitialize está habilitado, inicializando conexão...");
+      initializeDatabaseConnection();
+    }
+  }, [autoInitialize]);
 
   return (
     <DatabaseContext.Provider

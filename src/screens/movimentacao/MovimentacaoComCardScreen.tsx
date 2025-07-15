@@ -24,6 +24,7 @@ export default function MovimentacaoComCardScreen() {
   const { theme } = useAppTheme();
   const { isLoggedIn, userID } = useAuth();
   const [movimentacoes, setMovimentacoes] = useState<MovimentacaoMensalType[]>([]);
+
   const colorScheme = useColorScheme();
 
   console.log("MovimentacaoScreen - vai chamar o useMovimentacoesCopilot");
@@ -37,10 +38,15 @@ export default function MovimentacaoComCardScreen() {
         setMovimentacoes([]);
         return;
       }
-      const dados = await (await useMovimentacoes).searchByAssociado(userID);
+      const dados = await (await useMovimentacoes).searchByAssociadoId(userID);
       console.log("MovimentacaoScreen - Dados recebidos:", dados);
-      if (JSON.stringify(dados) !== JSON.stringify(movimentacoes)) {
-        setMovimentacoes(dados ?? []);
+      if (dados.success === false) {
+        console.error("MovimentacaoScreen - Erro ao buscar movimentações:", dados.error);
+        setMovimentacoes([]);
+        return;
+      }
+      if (JSON.stringify(dados.data) !== JSON.stringify(movimentacoes)) {
+        setMovimentacoes(dados.data ?? []);
       }
       console.log("MovimentacaoScreen - Movimentações carregadas com sucesso.");
     };
@@ -81,7 +87,8 @@ export default function MovimentacaoComCardScreen() {
           <Text style={theme.text}>
             ⚡ Tarifa Unitaria: R$ {(item.valorCobrado / item.energiaRecebidaKwh).toFixed(2)} /kWh
           </Text>
-          <Text style={theme.text}>💰 Valor Cobrado: R$ {item.valorCobrado.toFixed(2)}</Text>
+          {/* <Text style={theme.text}>💰 Valor Cobrado: R$ {item.valorCobrado.toFixed(2)}</Text> */}
+          <Text style={theme.text}>💰 Valor Cobrado: {item.valorCobrado.toLocaleString("ptbr", { style: "currency", currency: "brf" })}</Text>
         </View>
 
         <View
@@ -94,7 +101,7 @@ export default function MovimentacaoComCardScreen() {
               // backgroundColor:
               //   item.statusPagamento === "Pago" ? "#e0f7e9" :
               //     item.statusPagamento === "Pendente" ? "#fbe9e7" :
-              backgroundColor: getStatusBackgroundColor(item.statusPagamento ?? "", colorScheme ?? ""),
+              // backgroundColor: getStatusBackgroundColor(item.statusPagamento ?? "", colorScheme ?? ""),
               padding: 4
             }]
           }

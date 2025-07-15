@@ -1,116 +1,78 @@
 // /src/services/database/seedMovimentacoes.ts
+import { DBResponse } from "@/types/DBResponse";
 import * as SQLite from "expo-sqlite";
-import { initializeDatabaseCopilot } from "./initializeDatabaseCopilot";
 
-export async function seedMovimentacoes(_associadoId: number, db: SQLite.SQLiteDatabase | null): Promise<void> {
+export async function seedMovimentacoes(
+  associadoId: number,
+  db: SQLite.SQLiteDatabase
+): Promise<DBResponse<{ count: number }>> {
   console.log("=== INICIO ========================================================================");
-  console.log("seedMovimentacoes - Iniciando a inserção de registros de movimentação...",_associadoId);
+  console.log("seedMovimentacoes - Iniciando a inserção de registros de movimentação...", associadoId);
 
-  // Verifica se o banco de dados já foi inicializado
-  try {
-    if (!db) {
-      db = await initializeDatabaseCopilot();
-    }
-  } catch (error) {
-    console.error("seedMovimentacoes - openDatabaseAsync - Erro ao inicializar o banco de dados:", error);
-    console.log("=== TERMINO ========================================================================");
-    throw new Error("seedMovimentacoes - Erro ao abrir o banco de dados.");
+  if (!db) {
+    console.error("seedMovimentacoes - Conexão com o banco de dados não fornecida.");
+    return { success: false, error: "Conexão com o banco de dados não fornecida." };
   }
 
-  // const associadoId = "00000000000000-01"; // ID fictício do associado
   const currentDate = new Date();
+  let registrosInseridos = 0;
 
-  for (let i = 0; i < 12; i++) {
-    console.log("seedMovimentacoes - Inserindo registros de movimentação...", i + 1, "de 12");
-    const movimentacaoDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - i,
-      1
-    );
+  try {
+    for (let i = 0; i < 12; i++) {
+      const movimentacaoDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+      const mes = movimentacaoDate.getMonth() + 1;
+      const ano = movimentacaoDate.getFullYear();
+      const valorTotal = parseFloat((Math.random() * 1000).toFixed(2));
+      const dataCadastro = movimentacaoDate.toISOString();
+      const dataAtualizacao = dataCadastro;
 
-    const mes = movimentacaoDate.getMonth() + 1; // Mês (1-12)
-    const ano = movimentacaoDate.getFullYear(); // Ano
-    const valorTotal = parseFloat((Math.random() * 1000).toFixed(2)); // Valor total aleatório
-    const dataCadastro = movimentacaoDate.toISOString(); // Data de cadastro no formato ISO
-    const dataAtualizacao = dataCadastro;
+      const dataVencimento = new Date(
+        movimentacaoDate.getFullYear(),
+        movimentacaoDate.getMonth(),
+        Math.floor(Math.random() * 28) + 1
+      ).toISOString();
 
-    const dataVencimento = new Date(
-      movimentacaoDate.getFullYear(),
-      movimentacaoDate.getMonth(),
-      Math.floor(Math.random() * 28) + 1
-    ).toISOString(); // Data de vencimento aleatória
-    const dataPagamento = Math.random() > 0.5 ? dataVencimento : null; // Data de pagamento aleatória ou null
-    const statusPagamento = dataPagamento ? "Pago" : "Pendente"; // Status baseado na data de pagamento
-    const observacoes = `Detalhe ${i + 1} da movimentação ${_associadoId}`; // Observações aleatórias
+      const dataPagamento = Math.random() > 0.5 ? dataVencimento : null;
+      const statusPagamento = dataPagamento ? "Pago" : "Pendente";
+      const observacoes = `Detalhe ${i + 1} da movimentação ${associadoId}`;
 
-    const energiaRecebidaKwh = parseFloat((Math.random() * 100).toFixed(2)); // Energia recebida aleatória
-    const valorEnergiaRecebida = parseFloat((energiaRecebidaKwh * 0.5).toFixed(2)); // Valor baseado na energia recebida
-    const tarifaUnitariaKwh = 0.5; // Tarifa fixa
-    const valorCobrado = parseFloat((valorEnergiaRecebida * 0.85).toFixed(2)); // Valor cobrado são 15% de desconto
-    const valorEconomizado = parseFloat((valorEnergiaRecebida - valorCobrado).toFixed(2)); // Valor baseado na energia recebida();
-    const percentualEconomizado = parseFloat(((1-(valorCobrado / valorEnergiaRecebida)) * 100).toFixed(2));
+      const energiaRecebidaKwh = parseFloat((Math.random() * 100).toFixed(2));
+      const valorEnergiaRecebida = parseFloat((energiaRecebidaKwh * 0.5).toFixed(2));
+      const tarifaUnitariaKwh = 0.5;
+      const valorCobrado = parseFloat((valorEnergiaRecebida * 0.85).toFixed(2));
+      const valorEconomizado = parseFloat((valorEnergiaRecebida - valorCobrado).toFixed(2));
+      const percentualEconomizado = parseFloat(((1 - valorCobrado / valorEnergiaRecebida) * 100).toFixed(2));
 
-    console.log("seedMovimentacoes - Inserindo movimentação: ", 
-      [ dataCadastro, dataAtualizacao, _associadoId, mes,
-        ano, valorTotal, dataVencimento, dataPagamento, statusPagamento, observacoes,
-        energiaRecebidaKwh, valorEnergiaRecebida, tarifaUnitariaKwh, valorCobrado
-      ]);
-    
-      const movimentacaoId = (_associadoId + i +1 );
+      const movimentacaoId = associadoId * 100 + i + 1;
 
-    // Inserir registro na tabela movimentacoes
-    // const movimentacaoId = `${associadoId}-${ano}-${mes}`; // ID fictício para movimentação
-    const result = await db?.runAsync(
-      `INSERT INTO movimentacoes (id, dataCadastro, dataAtualizacao, associadoId, mes,
-      ano, valorTotal, dataVencimento, dataPagamento, statusPagamento, observacoes,
-      energiaRecebidaKwh, valorEnergiaRecebida, tarifaUnitariaKwh, valorCobrado,
-      valorEconomizado, percentualEconomizado)
-       VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );`,
-      [ movimentacaoId, dataCadastro, dataAtualizacao, _associadoId, mes,
-        ano, valorTotal, dataVencimento, dataPagamento, statusPagamento, observacoes,
-        energiaRecebidaKwh, valorEnergiaRecebida, tarifaUnitariaKwh, valorCobrado,
-        valorEconomizado, percentualEconomizado
-      ]
-    );
+      const result = await db.runAsync(
+        `INSERT INTO movimentacoes (
+          id, dataCadastro, dataAtualizacao, associadoId, mes,
+          ano, valorTotal, dataVencimento, dataPagamento, statusPagamento, observacoes,
+          energiaRecebidaKwh, valorEnergiaRecebida, tarifaUnitariaKwh, valorCobrado,
+          valorEconomizado, percentualEconomizado
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+        [
+          movimentacaoId, dataCadastro, dataAtualizacao, associadoId, mes,
+          ano, valorTotal, dataVencimento, dataPagamento, statusPagamento, observacoes,
+          energiaRecebidaKwh, valorEnergiaRecebida, tarifaUnitariaKwh, valorCobrado,
+          valorEconomizado, percentualEconomizado
+        ]
+      );
 
-    console.log(`seedMovimentacoes - Registro de movimentação inserido:`, result);
-    // const movimentacaoId = result?.lastInsertRowId ?? 0;
+      if (result?.changes === 1) {
+        registrosInseridos++;
+      }
+    }
 
-    // // Inserir registros na tabela movimentacoes_detalhes
-    // const detalhesCount = Math.floor(Math.random() * 5) + 1; // Número aleatório de detalhes (1-5)
-    // for (let j = 0; j < detalhesCount; j++) {
-    //   const energiaRecebidaKwh = parseFloat((Math.random() * 100).toFixed(2)); // Energia recebida aleatória
-    //   const valorEnergiaRecebida = parseFloat((energiaRecebidaKwh * 0.5).toFixed(2)); // Valor baseado na energia recebida
-    //   const tarifaUnitariaKwh = 0.5; // Tarifa fixa
-    //   const valorCobrado = parseFloat((Math.random() * 100).toFixed(2)); // Valor cobrado aleatório
+    console.log("seedMovimentacoes - Registros de movimentação inseridos:", registrosInseridos);
+    return { success: true, data: { count: registrosInseridos } };
 
-
-    //   const criadoEm = new Date().toISOString();
-    //   const atualizadoEm = new Date().toISOString();
-
-    //   const result = await db?.runAsync(
-    //     `INSERT INTO movimentacoes_detalhes (id, dataCadastro, dataAtualizacao, , movimentacaoId, energiaRecebidaKwh, valorEnergiaRecebida, tarifaUnitariaKwh, valorCobrado, dataVencimento, dataPagamento, statusPagamento, observacoes, criadoEm, atualizadoEm)
-    //      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-    //     [
-    //       0,
-    //       movimentacaoId,
-    //       energiaRecebidaKwh,
-    //       valorEnergiaRecebida,
-    //       tarifaUnitariaKwh,
-    //       valorCobrado,
-    //       dataVencimento,
-    //       dataPagamento,
-    //       statusPagamento,
-    //       observacoes,
-    //       criadoEm,
-    //       atualizadoEm,
-    //     ]
-    //   );
-
-    //   console.log(`seedMovimentacoes - Detalhe inserido:`, result);
-    // }
+  } catch (error) {
+    console.error("seedMovimentacoes - Erro durante a inserção de movimentações:", error);
+    return { success: false, error: "Erro ao inserir movimentações para o associado." };
+  } finally {
+    console.log("=== TERMINO ========================================================================");
   }
-
-  console.log("seedMovimentacoes - Registros de movimentação e detalhes inseridos com sucesso.");
-  console.log("=== TERMINO ========================================================================");
 }
